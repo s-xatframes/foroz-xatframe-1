@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>foroz - mobile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chokokutai&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            width: 1080px;
+            height: 2000px;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0b1a38 0%, #0f2550 35%, #163566 65%, #1b3f75 100%);
+        }
+
+        .scene {
+            position: relative;
+            width: 1080px;
+            height: 2000px;
+            overflow: hidden;
+        }
+
+        /* ── Sun rays ────────────────────────────── */
+        .rays {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .rays::before {
+            content: "";
+            position: absolute;
+            top: 8%;
+            left: 45%;
+            width: 4000px;
+            height: 4000px;
+            transform: translate(-50%, -50%) rotate(15deg);
+            background: repeating-conic-gradient(
+                rgba(120, 190, 255, 0.06) 0deg 4deg,
+                transparent 4deg 20deg
+            );
+        }
+
+        .rays::after {
+            content: "";
+            position: absolute;
+            top: 8%;
+            left: 45%;
+            width: 4000px;
+            height: 4000px;
+            transform: translate(-50%, -50%) rotate(-10deg);
+            background: repeating-conic-gradient(
+                rgba(180, 220, 255, 0.04) 0deg 3deg,
+                transparent 3deg 15deg
+            );
+        }
+
+        /* ── Sun ────────────────────────────────── */
+        .sun {
+            position: absolute;
+            top: 6%;
+            left: 45%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 140px;
+            z-index: 2;
+            filter: drop-shadow(0 0 40px rgba(140, 200, 255, 0.4))
+                    drop-shadow(0 0 80px rgba(100, 180, 255, 0.2));
+        }
+
+        .sun svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ── Ambient glow spots ─────────────────── */
+        .glow-spot {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+        }
+
+        /* ── Clouds ─────────────────────────────── */
+        .cloud {
+            position: absolute;
+        }
+
+        .cloud-body {
+            position: relative;
+            display: inline-block;
+        }
+
+        .cloud-body svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 3px 0 rgba(80, 140, 220, 0.5))
+                    drop-shadow(0 6px 16px rgba(0, 30, 100, 0.25));
+        }
+
+        .cloud-base { fill: #fff; }
+        .cloud-shade { fill: #d0e4ff; }
+        .cloud-highlight { fill: #f0f8ff; }
+        .cloud-outline {
+            fill: none;
+            stroke: rgba(80, 130, 200, 0.6);
+            stroke-width: 2.5;
+            stroke-linejoin: round;
+        }
+        .cloud-eye { fill: #1a3a6a; }
+        .cloud-eye-shine { fill: #fff; }
+
+        /* ── Hills ──────────────────────────────── */
+        .hills {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .hill-layer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .hill-layer svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .hill-back  { height: 600px; z-index: 4; }
+        .hill-mid   { height: 480px; z-index: 6; }
+        .hill-front { height: 350px; z-index: 8; }
+
+        /* ── Logo ───────────────────────────────── */
+        .logo-area {
+            position: absolute;
+            left: 45%;
+            top: 16%;
+            transform: translateX(-50%);
+            z-index: 10;
+            text-align: center;
+        }
+
+        .logo-text {
+            font-family: 'Chokokutai', cursive;
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 5px;
+            line-height: 1;
+            text-shadow:
+                0  1px 0 #e4edff,
+                0  2px 0 #dce8ff,
+                0  3px 0 #d0e0ff,
+                0  4px 0 #c4d8ff,
+                0  5px 0 #b8d0fa,
+                0  6px 0 #a8c4f5,
+                0  7px 0 #98b8f0,
+                0  8px 0 #88abeb,
+                0  9px 0 #78a0e6,
+                0 10px 0 #6894e0,
+                0 11px 0 #5888da,
+                0 12px 0 #487cd4,
+                0 13px 0 #3870ce,
+                0 14px 0 #2864c8,
+                0 15px 0 #1a58c2,
+                0 16px 0 #104cbc,
+                0 18px 18px rgba(8, 40, 130, 0.55),
+                0 24px 40px rgba(10, 50, 160, 0.35),
+                0 30px 60px rgba(10, 40, 140, 0.2),
+                0  0  80px rgba(90, 165, 255, 0.2);
+        }
+
+        .logo-sub {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: rgba(170, 210, 255, 0.45);
+            letter-spacing: 4px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="scene">
+        <div class="rays"></div>
+
+        <!-- Sun -->
+        <div class="sun">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="48" fill="rgba(200, 230, 255, 0.25)"/>
+                <circle cx="50" cy="50" r="36" fill="#d0e6ff"/>
+                <circle cx="50" cy="50" r="36" fill="url(#sunGrad)" />
+                <ellipse cx="44" cy="40" rx="18" ry="14" fill="rgba(255, 255, 255, 0.45)"/>
+                <circle cx="40" cy="48" r="3" fill="rgba(30, 60, 140, 0.7)"/>
+                <circle cx="60" cy="48" r="3" fill="rgba(30, 60, 140, 0.7)"/>
+                <circle cx="39" cy="46" r="1.2" fill="rgba(255,255,255,0.85)"/>
+                <circle cx="59" cy="46" r="1.2" fill="rgba(255,255,255,0.85)"/>
+                <path d="M42,57 Q50,65 58,57" fill="none" stroke="rgba(30, 60, 140, 0.55)" stroke-width="2" stroke-linecap="round"/>
+                <ellipse cx="35" cy="56" rx="5" ry="3" fill="rgba(140, 190, 255, 0.4)"/>
+                <ellipse cx="65" cy="56" rx="5" ry="3" fill="rgba(140, 190, 255, 0.4)"/>
+                <defs>
+                    <radialGradient id="sunGrad" cx="40%" cy="38%" r="55%">
+                        <stop offset="0%" stop-color="rgba(235, 245, 255, 0.9)"/>
+                        <stop offset="100%" stop-color="rgba(170, 215, 255, 0.7)"/>
+                    </radialGradient>
+                </defs>
+            </svg>
+        </div>
+
+        <!-- Ambient glow -->
+        <div class="glow-spot" style="width:500px;height:500px;background:rgba(30,100,220,0.28);top:10%;left:8%"></div>
+        <div class="glow-spot" style="width:400px;height:400px;background:rgba(60,145,255,0.18);bottom:15%;right:10%;opacity:0.35"></div>
+        <div class="glow-spot" style="width:300px;height:300px;background:rgba(100,185,255,0.12);top:45%;left:40%;opacity:0.3"></div>
+
+        <!-- Clouds -->
+        <!-- Top clouds near sun -->
+        <div class="cloud" style="top:4%;left:5%;z-index:3;opacity:0.85">
+            <div class="cloud-body" style="width:160px;height:108px">
+                <svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/>
+                    <ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/>
+                    <circle class="cloud-base" cx="50" cy="60" r="32"/>
+                    <circle class="cloud-base" cx="90" cy="48" r="38"/>
+                    <circle class="cloud-base" cx="128" cy="60" r="28"/>
+                    <circle class="cloud-base" cx="38" cy="68" r="24"/>
+                    <ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/>
+                    <path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/>
+                    <ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/>
+                    <circle class="cloud-eye-shine" cx="66" cy="69" r="2"/>
+                    <ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/>
+                    <circle class="cloud-eye-shine" cx="103" cy="69" r="2"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="cloud" style="top:9%;left:65%;z-index:3;opacity:0.75">
+            <div class="cloud-body" style="width:120px;height:81px">
+                <svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/>
+                    <ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/>
+                    <circle class="cloud-base" cx="50" cy="60" r="32"/>
+                    <circle class="cloud-base" cx="90" cy="48" r="38"/>
+                    <circle class="cloud-base" cx="128" cy="60" r="28"/>
+                    <circle class="cloud-base" cx="38" cy="68" r="24"/>
+                    <ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/>
+                    <path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/>
+                    <ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/>
+                    <circle class="cloud-eye-shine" cx="66" cy="69" r="2"/>
+                    <ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/>
+                    <circle class="cloud-eye-shine" cx="103" cy="69" r="2"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Mid clouds -->
+        <div class="cloud" style="top:30%;left:10%;z-index:5;opacity:0.8">
+            <div class="cloud-body" style="width:180px;height:122px">
+                <svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/>
+                    <ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/>
+                    <circle class="cloud-base" cx="50" cy="60" r="32"/>
+                    <circle class="cloud-base" cx="90" cy="48" r="38"/>
+                    <circle class="cloud-base" cx="128" cy="60" r="28"/>
+                    <circle class="cloud-base" cx="38" cy="68" r="24"/>
+                    <ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/>
+                    <path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/>
+                    <ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/>
+                    <circle class="cloud-eye-shine" cx="66" cy="69" r="2"/>
+                    <ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/>
+                    <circle class="cloud-eye-shine" cx="103" cy="69" r="2"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="cloud" style="top:38%;left:72%;z-index:7;opacity:0.7">
+            <div class="cloud-body" style="width:100px;height:68px">
+                <svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/>
+                    <ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/>
+                    <circle class="cloud-base" cx="50" cy="60" r="32"/>
+                    <circle class="cloud-base" cx="90" cy="48" r="38"/>
+                    <circle class="cloud-base" cx="128" cy="60" r="28"/>
+                    <circle class="cloud-base" cx="38" cy="68" r="24"/>
+                    <ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/>
+                    <path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/>
+                    <ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/>
+                    <circle class="cloud-eye-shine" cx="66" cy="69" r="2"/>
+                    <ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/>
+                    <circle class="cloud-eye-shine" cx="103" cy="69" r="2"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Bottom clouds -->
+        <div class="cloud" style="top:75%;left:55%;z-index:9;opacity:0.85">
+            <div class="cloud-body" style="width:150px;height:101px">
+                <svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/>
+                    <ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/>
+                    <circle class="cloud-base" cx="50" cy="60" r="32"/>
+                    <circle class="cloud-base" cx="90" cy="48" r="38"/>
+                    <circle class="cloud-base" cx="128" cy="60" r="28"/>
+                    <circle class="cloud-base" cx="38" cy="68" r="24"/>
+                    <ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/>
+                    <path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/>
+                    <ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/>
+                    <circle class="cloud-eye-shine" cx="66" cy="69" r="2"/>
+                    <ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/>
+                    <circle class="cloud-eye-shine" cx="103" cy="69" r="2"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="cloud" style="top:82%;left:3%;z-index:9;opacity:0.75">
+            <div class="cloud-body" style="width:130px;height:88px">
+                <svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/>
+                    <ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/>
+                    <circle class="cloud-base" cx="50" cy="60" r="32"/>
+                    <circle class="cloud-base" cx="90" cy="48" r="38"/>
+                    <circle class="cloud-base" cx="128" cy="60" r="28"/>
+                    <circle class="cloud-base" cx="38" cy="68" r="24"/>
+                    <ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/>
+                    <path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/>
+                    <ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/>
+                    <circle class="cloud-eye-shine" cx="66" cy="69" r="2"/>
+                    <ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/>
+                    <circle class="cloud-eye-shine" cx="103" cy="69" r="2"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Hills -->
+        <div class="hills">
+            <div class="hill-layer hill-back">
+                <svg viewBox="0 0 1080 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,600 L0,350 L60,300 L140,120 L180,60 L220,100 L290,250 L380,320 L450,150 L490,80 L530,130 L600,200 L680,300 L760,280 L830,200 L880,80 L920,50 L960,100 L1020,280 L1080,350 L1080,600 Z" fill="#1a4a8a"/>
+                </svg>
+            </div>
+            <div class="hill-layer hill-mid">
+                <svg viewBox="0 0 1080 480" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,480 L0,280 L50,240 L120,180 L200,250 L290,130 L350,50 L390,30 L430,80 L500,200 L600,280 L700,300 L780,260 L850,140 L920,60 L960,40 L1000,100 L1040,220 L1080,300 L1080,480 Z" fill="#0f3468"/>
+                </svg>
+            </div>
+            <div class="hill-layer hill-front">
+                <svg viewBox="0 0 1080 350" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,350 L0,200 L60,180 L150,190 L250,150 L350,210 L450,120 L530,40 L580,20 L620,60 L700,150 L800,210 L900,220 L980,200 L1040,210 L1080,230 L1080,350 Z" fill="#06193c"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Logo -->
+        <div class="logo-area">
+            <div class="logo-text">foroz</div>
+            <div class="logo-sub">xat.com/foroz</div>
+        </div>
+    </div>
+</body>
+</html>
