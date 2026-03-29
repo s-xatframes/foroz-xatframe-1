@@ -215,18 +215,34 @@
         /* ── Chat backdrop ───────────────────────── */
         .chat-backdrop {
             position: absolute;
-            top: 93px;
-            left: 50%;
+            top: 84.5px;
+            left: 50.25%;
             transform: translateX(-50%);
-            width: 750px;
-            height: 506px;
-            background: rgba(10, 25, 60, 0.25);
-            backdrop-filter: blur(18px);
+            width: 728px;
+            height: 486px;
+            backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(18px);
-            border-radius: 14px;
-            border: 1px solid rgba(100, 170, 255, 0.08);
+            border-radius: 16px;
             z-index: 20;
             pointer-events: none;
+        }
+
+        /* ── Logo secondary (at tabs height) ───── */
+        .logo-tabs {
+            position: absolute;
+            right: calc(50.25% - 174px + 10px);
+            top: 429px;
+            transform: translateY(-50%);
+            z-index: 21;
+            text-align: right;
+        }
+
+        .logo-tabs .logo-text {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-shadow: none;
+            -webkit-text-stroke: 1px #0b1a38;
+            paint-order: stroke fill;
         }
 
         /* ── Logo ───────────────────────────────── */
@@ -528,6 +544,11 @@
 
         <!-- Chat backdrop -->
         <div class="chat-backdrop"></div>
+
+        <!-- Logo at tabs height -->
+        <div class="logo-tabs">
+            <div class="logo-text">foroz</div>
+        </div>
 
         <!-- Rules -->
         <div class="rules-panel">
