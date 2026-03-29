@@ -212,6 +212,23 @@
             100% { transform: translateX(-50%); }
         }
 
+        /* ── Chat backdrop ───────────────────────── */
+        .chat-backdrop {
+            position: absolute;
+            top: 93px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 750px;
+            height: 506px;
+            background: rgba(10, 25, 60, 0.25);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 14px;
+            border: 1px solid rgba(100, 170, 255, 0.08);
+            z-index: 20;
+            pointer-events: none;
+        }
+
         /* ── Logo ───────────────────────────────── */
         .logo-area {
             position: absolute;
@@ -508,6 +525,9 @@
             <div class="logo-text">foroz</div>
             <div class="logo-sub">xat.com/foroz</div>
         </div>
+
+        <!-- Chat backdrop -->
+        <div class="chat-backdrop"></div>
 
         <!-- Rules -->
         <div class="rules-panel">
