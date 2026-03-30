@@ -212,12 +212,6 @@
             100% { transform: translateX(-50%); }
         }
 
-        @property --border-angle {
-            syntax: "<angle>";
-            initial-value: 0deg;
-            inherits: false;
-        }
-
         /* ── Chat backdrop ───────────────────────── */
         .chat-backdrop {
             position: absolute;
@@ -226,42 +220,11 @@
             transform: translateX(-50%);
             width: 728px;
             height: 486px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border-radius: 16px;
             z-index: 20;
             pointer-events: none;
-        }
-
-        .chat-backdrop::before {
-            content: "";
-            position: absolute;
-            inset: 1px;
-            border-radius: 15px;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        .chat-backdrop::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: 16px;
-            padding: 2px;
-            background: conic-gradient(
-                from var(--border-angle),
-                #0f2550, #1b3f75, #3a7bd5, #1b3f75,
-                #0f2550, #1b3f75, #3a7bd5, #1b3f75,
-                #0f2550, #1b3f75, #3a7bd5, #1b3f75,
-                #0f2550
-            );
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            animation: borderSpin 8s linear infinite;
-        }
-
-        @keyframes borderSpin {
-            from { --border-angle: 0deg; }
-            to   { --border-angle: 360deg; }
         }
 
         /* ── Logo secondary (at tabs height) ───── */
