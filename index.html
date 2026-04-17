@@ -34,6 +34,7 @@
             inset: 0;
             pointer-events: none;
             overflow: hidden;
+            will-change: transform;
         }
 
         .rays::before {
@@ -43,12 +44,13 @@
             left: 25%;
             width: 200vmax;
             height: 200vmax;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) translateZ(0);
             background: repeating-conic-gradient(
                 rgba(120, 190, 255, 0.06) 0deg 4deg,
                 transparent 4deg 20deg
             );
             animation: raysRotate 90s linear infinite;
+            will-change: transform;
         }
 
         .rays::after {
@@ -58,17 +60,18 @@
             left: 25%;
             width: 200vmax;
             height: 200vmax;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%) translateZ(0);
             background: repeating-conic-gradient(
                 rgba(180, 220, 255, 0.04) 0deg 3deg,
                 transparent 3deg 15deg
             );
             animation: raysRotate 120s linear infinite reverse;
+            will-change: transform;
         }
 
         @keyframes raysRotate {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to   { transform: translate(-50%, -50%) rotate(360deg); }
+            from { transform: translate(-50%, -50%) translateZ(0) rotate(0deg); }
+            to   { transform: translate(-50%, -50%) translateZ(0) rotate(360deg); }
         }
 
         /* ── Sun ────────────────────────────────── */
@@ -103,6 +106,8 @@
             filter: blur(90px);
             pointer-events: none;
             animation: glowPulse 7s ease-in-out infinite;
+            will-change: transform, opacity;
+            transform: translateZ(0);
         }
 
         @keyframes glowPulse {
@@ -115,6 +120,8 @@
             position: absolute;
             pointer-events: none;
             animation: cloudDrift linear infinite;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         .cloud-body {
@@ -217,7 +224,7 @@
             position: absolute;
             top: 93px;
             left: 50.25%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) translateZ(0);
             width: 728px;
             height: 486px;
             backdrop-filter: blur(8px);
@@ -225,6 +232,7 @@
             border-radius: 16px;
             z-index: 20;
             pointer-events: none;
+            will-change: transform;
         }
 
         /* ── Logo secondary (at tabs height) ───── */
