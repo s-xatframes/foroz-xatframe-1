@@ -34,7 +34,6 @@
             inset: 0;
             pointer-events: none;
             overflow: hidden;
-            will-change: transform;
         }
 
         .rays::before {
@@ -42,15 +41,14 @@
             position: absolute;
             top: 10%;
             left: 25%;
-            width: 200vmax;
-            height: 200vmax;
-            transform: translate(-50%, -50%) translateZ(0);
+            width: 150vmax;
+            height: 150vmax;
+            transform: translate(-50%, -50%);
             background: repeating-conic-gradient(
                 rgba(120, 190, 255, 0.06) 0deg 4deg,
                 transparent 4deg 20deg
             );
             animation: raysRotate 90s linear infinite;
-            will-change: transform;
         }
 
         .rays::after {
@@ -58,20 +56,19 @@
             position: absolute;
             top: 10%;
             left: 25%;
-            width: 200vmax;
-            height: 200vmax;
-            transform: translate(-50%, -50%) translateZ(0);
+            width: 150vmax;
+            height: 150vmax;
+            transform: translate(-50%, -50%);
             background: repeating-conic-gradient(
                 rgba(180, 220, 255, 0.04) 0deg 3deg,
                 transparent 3deg 15deg
             );
             animation: raysRotate 120s linear infinite reverse;
-            will-change: transform;
         }
 
         @keyframes raysRotate {
-            from { transform: translate(-50%, -50%) translateZ(0) rotate(0deg); }
-            to   { transform: translate(-50%, -50%) translateZ(0) rotate(360deg); }
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to   { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
         /* ── Sun ────────────────────────────────── */
@@ -105,14 +102,7 @@
             border-radius: 50%;
             filter: blur(90px);
             pointer-events: none;
-            animation: glowPulse 7s ease-in-out infinite;
-            will-change: transform, opacity;
-            transform: translateZ(0);
-        }
-
-        @keyframes glowPulse {
-            0%, 100% { opacity: 0.25; transform: scale(1); }
-            50%      { opacity: 0.45; transform: scale(1.12); }
+            opacity: 0.35;
         }
 
         /* ── Mario-style clouds ─────────────────── */
@@ -120,8 +110,6 @@
             position: absolute;
             pointer-events: none;
             animation: cloudDrift linear infinite;
-            will-change: transform;
-            transform: translateZ(0);
         }
 
         .cloud-body {
@@ -133,8 +121,7 @@
             display: block;
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 3px 0 rgba(80, 140, 220, 0.5))
-                    drop-shadow(0 6px 16px rgba(0, 30, 100, 0.25));
+            filter: drop-shadow(0 4px 10px rgba(0, 30, 100, 0.25));
         }
 
         .cloud-base {
@@ -224,7 +211,7 @@
             position: absolute;
             top: 93px;
             left: 50.25%;
-            transform: translateX(-50%) translateZ(0);
+            transform: translateX(-50%);
             width: 728px;
             height: 486px;
             backdrop-filter: blur(8px);
@@ -232,7 +219,6 @@
             border-radius: 16px;
             z-index: 20;
             pointer-events: none;
-            will-change: transform;
         }
 
         /* ── Logo secondary (at tabs height) ───── */
@@ -478,6 +464,32 @@
         @media (max-width: 480px) {
             .logo-text { letter-spacing: 2px; }
         }
+
+        /* ── Mobile / portrait: static mode ───── */
+        @media (max-aspect-ratio: 4/3) {
+            .rays,
+            .sun,
+            .glow-spot,
+            #clouds,
+            .chat-backdrop {
+                display: none !important;
+            }
+
+            .logo-area,
+            .rules-card {
+                animation: none !important;
+            }
+        }
+
+        /* ── Paused state (tab hidden) ─────────── */
+        .paused,
+        .paused *,
+        .paused::before,
+        .paused::after,
+        .paused *::before,
+        .paused *::after {
+            animation-play-state: paused !important;
+        }
     </style>
 </head>
 <body>
@@ -515,8 +527,8 @@
 
         <!-- Ambient glow -->
         <div class="glow-spot" style="width:420px;height:420px;background:rgba(30,100,220,0.28);top:15%;left:12%"></div>
-        <div class="glow-spot" style="width:320px;height:320px;background:rgba(60,145,255,0.18);bottom:8%;right:18%;animation-delay:2.5s"></div>
-        <div class="glow-spot" style="width:260px;height:260px;background:rgba(100,185,255,0.12);top:55%;left:48%;animation-delay:4.5s"></div>
+        <div class="glow-spot" style="width:320px;height:320px;background:rgba(60,145,255,0.18);bottom:8%;right:18%"></div>
+        <div class="glow-spot" style="width:260px;height:260px;background:rgba(100,185,255,0.12);top:55%;left:48%"></div>
 
         <!-- Clouds -->
         <div id="clouds" aria-hidden="true"></div>
@@ -658,57 +670,63 @@
         restartBar();
         var autoTimer = setInterval(nextRule, INTERVAL);
 
-        /* ── Clouds ──────────────────────────────── */
-        var cloudsEl = document.getElementById("clouds");
+        /* ── Clouds (skip on portrait/mobile) ──── */
+        var isPortrait = window.matchMedia("(max-aspect-ratio: 4/3)").matches;
 
-        var cloudSVG = '<svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg">'
-            // bottom shade
-            + '<ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/>'
-            // main body puffs
-            + '<ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/>'
-            + '<circle  class="cloud-base" cx="50" cy="60" r="32"/>'
-            + '<circle  class="cloud-base" cx="90" cy="48" r="38"/>'
-            + '<circle  class="cloud-base" cx="128" cy="60" r="28"/>'
-            + '<circle  class="cloud-base" cx="38" cy="68" r="24"/>'
-            // top highlight
-            + '<ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/>'
-            // outline
-            + '<path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/>'
-            // left eye
-            + '<ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/>'
-            + '<circle class="cloud-eye-shine" cx="66" cy="69" r="2"/>'
-            // right eye
-            + '<ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/>'
-            + '<circle class="cloud-eye-shine" cx="103" cy="69" r="2"/>'
-            + '</svg>';
+        if (!isPortrait) {
+            var cloudsEl = document.getElementById("clouds");
 
-        var sizes = ["sm", "md", "lg"];
-        var cloudSlots = [
-            { top: "3%",  delay: 0,  dur: 55, z: 3 },
-            { top: "8%",  delay: 12, dur: 70, z: 3 },
-            { top: "6%",  delay: 35, dur: 75, z: 3 },
-            { top: "35%", delay: 15, dur: 62, z: 5 },
-            { top: "38%", delay: 42, dur: 72, z: 5 },
-            { top: "48%", delay: 6,  dur: 65, z: 5 },
-            { top: "55%", delay: 28, dur: 50, z: 7 },
-            { top: "63%", delay: 20, dur: 58, z: 9 },
-            { top: "82%", delay: 8,  dur: 60, z: 9 },
-            { top: "88%", delay: 22, dur: 68, z: 9 },
-            { top: "85%", delay: 40, dur: 55, z: 9 },
-        ];
+            var cloudSVG = '<svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg">'
+                + '<ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/>'
+                + '<ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/>'
+                + '<circle  class="cloud-base" cx="50" cy="60" r="32"/>'
+                + '<circle  class="cloud-base" cx="90" cy="48" r="38"/>'
+                + '<circle  class="cloud-base" cx="128" cy="60" r="28"/>'
+                + '<circle  class="cloud-base" cx="38" cy="68" r="24"/>'
+                + '<ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/>'
+                + '<path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/>'
+                + '<ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/>'
+                + '<circle class="cloud-eye-shine" cx="66" cy="69" r="2"/>'
+                + '<ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/>'
+                + '<circle class="cloud-eye-shine" cx="103" cy="69" r="2"/>'
+                + '</svg>';
 
-        cloudSlots.forEach(function (slot, i) {
-            var c = document.createElement("div");
-            var sz = sizes[i % sizes.length];
-            c.className = "cloud " + sz;
-            c.innerHTML = '<div class="cloud-body">' + cloudSVG + '</div>';
-            c.style.top = slot.top;
-            c.style.left = "-200px";
-            c.style.opacity = 0.7 + Math.random() * 0.3;
-            c.style.zIndex = slot.z;
-            c.style.animationDuration = slot.dur + "s";
-            c.style.animationDelay = slot.delay + "s";
-            cloudsEl.appendChild(c);
+            var sizes = ["sm", "md", "lg"];
+            var cloudSlots = [
+                { top: "3%",  delay: 0,  dur: 55, z: 3 },
+                { top: "8%",  delay: 12, dur: 70, z: 3 },
+                { top: "35%", delay: 15, dur: 62, z: 5 },
+                { top: "48%", delay: 6,  dur: 65, z: 5 },
+                { top: "55%", delay: 28, dur: 50, z: 7 },
+                { top: "82%", delay: 8,  dur: 60, z: 9 },
+                { top: "88%", delay: 22, dur: 68, z: 9 },
+            ];
+
+            cloudSlots.forEach(function (slot, i) {
+                var c = document.createElement("div");
+                var sz = sizes[i % sizes.length];
+                c.className = "cloud " + sz;
+                c.innerHTML = '<div class="cloud-body">' + cloudSVG + '</div>';
+                c.style.top = slot.top;
+                c.style.left = "-200px";
+                c.style.opacity = 0.7 + Math.random() * 0.3;
+                c.style.zIndex = slot.z;
+                c.style.animationDuration = slot.dur + "s";
+                c.style.animationDelay = slot.delay + "s";
+                cloudsEl.appendChild(c);
+            });
+        }
+
+        /* ── Pause when tab hidden ────────────────── */
+        var sceneEl = document.querySelector(".scene");
+        document.addEventListener("visibilitychange", function () {
+            if (document.hidden) {
+                sceneEl.classList.add("paused");
+                clearInterval(autoTimer);
+            } else {
+                sceneEl.classList.remove("paused");
+                autoTimer = setInterval(nextRule, INTERVAL);
+            }
         });
     </script>
 </body>
