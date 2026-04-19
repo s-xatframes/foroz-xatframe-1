@@ -465,8 +465,8 @@
             .logo-text { letter-spacing: 2px; }
         }
 
-        /* ── Mobile / portrait: static mode ───── */
-        @media (max-aspect-ratio: 4/3) {
+        /* ── Non-standard aspect ratio: static mode ─ */
+        @media not all and (min-aspect-ratio: 16/10) {
             .rays,
             .sun,
             .glow-spot,
@@ -594,7 +594,7 @@
             "Spam: Prohibido, lo que incluye, pero no se limita a, mensajes, links, GIFs y emojis repetitivos.",
             "Datos personales: No se debe revelar información personal, incluida, pero no limitada a, la de los usuarios de Foroz o sus familiares.",
             "Clonación: Prohibido clonar cuentas de usuario.",
-            "Contenido NSFW: Está totalmente prohibido compartir contenido explícito que involucre a menores de edad, incluido, pero no limitado a, imágenes, videos, audios y mensajes.",
+            "Menores de edad: Queda prohibido mencionar, involucrar o hacer referencia a hijos, niños o menores de edad de cualquier usuario o en general con el fin de provocar, insultar o molestar.",
         ];
 
         const INTERVAL = 10000;
@@ -671,9 +671,9 @@
         var autoTimer = setInterval(nextRule, INTERVAL);
 
         /* ── Clouds (skip on portrait/mobile) ──── */
-        var isPortrait = window.matchMedia("(max-aspect-ratio: 4/3)").matches;
+        var isWidescreen = window.matchMedia("(min-aspect-ratio: 16/10)").matches;
 
-        if (!isPortrait) {
+        if (isWidescreen) {
             var cloudsEl = document.getElementById("clouds");
 
             var cloudSVG = '<svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg">'
