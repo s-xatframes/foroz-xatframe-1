@@ -28,7 +28,7 @@
             overflow: hidden;
         }
 
-        /* ── Sun rays ────────────────────────────── */
+        /* ── Sun rays (static) ───────────────────── */
         .rays {
             position: absolute;
             inset: 0;
@@ -40,42 +40,35 @@
             content: "";
             position: absolute;
             top: 10%;
-            left: 25%;
-            width: 150vmax;
-            height: 150vmax;
-            transform: translate(-50%, -50%);
+            left: 10%;
+            width: 200vmax;
+            height: 200vmax;
+            transform: translate(-50%, -50%) rotate(15deg);
             background: repeating-conic-gradient(
                 rgba(120, 190, 255, 0.06) 0deg 4deg,
                 transparent 4deg 20deg
             );
-            animation: raysRotate 90s linear infinite;
         }
 
         .rays::after {
             content: "";
             position: absolute;
             top: 10%;
-            left: 25%;
-            width: 150vmax;
-            height: 150vmax;
-            transform: translate(-50%, -50%);
+            left: 10%;
+            width: 200vmax;
+            height: 200vmax;
+            transform: translate(-50%, -50%) rotate(-10deg);
             background: repeating-conic-gradient(
                 rgba(180, 220, 255, 0.04) 0deg 3deg,
                 transparent 3deg 15deg
             );
-            animation: raysRotate 120s linear infinite reverse;
-        }
-
-        @keyframes raysRotate {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to   { transform: translate(-50%, -50%) rotate(360deg); }
         }
 
         /* ── Sun ────────────────────────────────── */
         .sun {
             position: absolute;
             top: calc(4% + 20px);
-            left: 25%;
+            left: 10%;
             transform: translateX(-50%);
             width: 100px;
             height: 100px;
@@ -88,12 +81,6 @@
         .sun svg {
             width: 100%;
             height: 100%;
-            animation: sunPulse 5s ease-in-out infinite;
-        }
-
-        @keyframes sunPulse {
-            0%, 100% { transform: scale(1); filter: brightness(1); }
-            50%      { transform: scale(1.08); filter: brightness(1.15); }
         }
 
         /* ── Ambient glow spots ─────────────────── */
@@ -109,7 +96,6 @@
         .cloud {
             position: absolute;
             pointer-events: none;
-            animation: cloudDrift linear infinite;
         }
 
         .cloud-body {
@@ -121,47 +107,27 @@
             display: block;
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 4px 10px rgba(0, 30, 100, 0.25));
+            filter: drop-shadow(0 3px 0 rgba(80, 140, 220, 0.5))
+                    drop-shadow(0 6px 16px rgba(0, 30, 100, 0.25));
         }
 
-        .cloud-base {
-            fill: #fff;
-        }
-
-        .cloud-shade {
-            fill: #d0e4ff;
-        }
-
-        .cloud-highlight {
-            fill: #f0f8ff;
-        }
-
+        .cloud-base { fill: #fff; }
+        .cloud-shade { fill: #d0e4ff; }
+        .cloud-highlight { fill: #f0f8ff; }
         .cloud-outline {
             fill: none;
             stroke: rgba(80, 130, 200, 0.6);
             stroke-width: 2.5;
             stroke-linejoin: round;
         }
+        .cloud-eye { fill: #1a3a6a; }
+        .cloud-eye-shine { fill: #fff; }
 
-        .cloud-eye {
-            fill: #1a3a6a;
-        }
-
-        .cloud-eye-shine {
-            fill: #fff;
-        }
-
-        /* Size variants */
         .cloud.sm .cloud-body { width: 90px; height: 62px; }
         .cloud.md .cloud-body { width: 140px; height: 95px; }
         .cloud.lg .cloud-body { width: 195px; height: 130px; }
 
-        @keyframes cloudDrift {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(calc(100vw + 200px)); }
-        }
-
-        /* ── Mario hills (parallax) ─────────── */
+        /* ── Mario hills ─────────────────────────── */
         .hills {
             position: absolute;
             bottom: 0;
@@ -186,37 +152,20 @@
             display: block;
         }
 
-        .hill-back {
-            height: 450px;
-            z-index: 4;
-        }
-
-        .hill-mid {
-            height: 380px;
-            z-index: 6;
-        }
-
-        .hill-front {
-            height: 280px;
-            z-index: 8;
-        }
-
-        @keyframes hillScroll {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+        .hill-back { height: 450px; z-index: 4; }
+        .hill-mid { height: 380px; z-index: 6; }
+        .hill-front { height: 280px; z-index: 8; }
 
         /* ── Chat backdrop ───────────────────────── */
         .chat-backdrop {
             position: absolute;
-            top: 93px;
-            left: 50.25%;
+            top: 0;
+            left: 50%;
             transform: translateX(-50%);
-            width: 728px;
-            height: 486px;
+            width: 60%;
+            height: 100%;
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            border-radius: 16px;
             z-index: 20;
             pointer-events: none;
         }
@@ -247,7 +196,6 @@
             transform: translateY(-50%) perspective(800px) rotateY(18deg);
             transform-origin: right center;
             z-index: 5;
-            animation: logoFloat 5.5s ease-in-out infinite;
         }
 
         .logo-text {
@@ -291,21 +239,15 @@
             margin-left: 6px;
         }
 
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(-50%) perspective(800px) rotateY(18deg); }
-            50%      { transform: translateY(calc(-50% - 10px)) perspective(800px) rotateY(18deg); }
-        }
-
-        /* ── Rules panel ────────────────────────── */
+        /* ── Rules panel (static, all visible) ──── */
         .rules-panel {
             position: absolute;
-            top: 336px;
+            top: 520px;
             right: 5%;
             transform: translateY(-50%) perspective(800px) rotateY(-10deg);
             transform-origin: left center;
-            width: clamp(220px, 17vw, 290px);
+            width: clamp(260px, 20vw, 350px);
             z-index: 10;
-            perspective: 900px;
         }
 
         .rules-card {
@@ -319,131 +261,61 @@
                 0 24px 64px rgba(0, 0, 0, 0.18),
                 0  4px 12px rgba(0, 0, 0, 0.08),
                 0  0  40px rgba(60, 140, 255, 0.08);
-            transform-style: preserve-3d;
-            animation: cardTilt 7s ease-in-out infinite;
             overflow: hidden;
-        }
-
-        @keyframes cardTilt {
-            0%, 100% { transform: rotateX(2deg) rotateY(-3deg); }
-            50%      { transform: rotateX(-1deg) rotateY(2deg) translateY(-6px); }
         }
 
         .rules-header {
             font-family: 'Poppins', sans-serif;
-            font-size: 0.8rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: #fff;
             letter-spacing: 3px;
             text-transform: uppercase;
             text-align: center;
             padding: 14px 26px;
-            margin: 0 0 18px;
+            margin: 0;
             background: linear-gradient(135deg, #1a4a8a, #0f3468);
             border-bottom: 1px solid rgba(100, 180, 255, 0.15);
         }
 
-        .rule-viewport {
-            height: 200px;
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            overflow: hidden;
-            padding: 0 22px;
-        }
-
-        .rule-content {
+        .rules-list {
+            padding: 16px 18px 10px;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            gap: 14px;
+        }
+
+        .rule-item {
+            display: flex;
             gap: 10px;
-            padding-top: 10px;
-            transition: opacity 0.38s ease, transform 0.38s ease;
-        }
-
-        .rule-content.out {
-            opacity: 0;
-            transform: translateY(-18px) perspective(400px) rotateX(20deg);
-        }
-
-        .rule-content.in {
-            opacity: 1;
-            transform: translateY(0) perspective(400px) rotateX(0deg);
+            align-items: flex-start;
         }
 
         .rule-num {
             font-family: 'Lilita One', cursive;
-            font-size: 2.8rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            color: rgba(30, 80, 180, 0.25);
-            line-height: 1;
+            color: rgba(30, 80, 180, 0.3);
+            line-height: 1.3;
+            flex-shrink: 0;
         }
 
         .rule-txt {
             font-family: 'Poppins', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.875rem;
             font-weight: 600;
             color: #1e293b;
-            text-align: justify;
-            line-height: 1.45;
-        }
-
-        /* dots */
-        .rule-dots {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 22px;
-        }
-
-        .rule-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: rgba(30, 60, 120, 0.15);
-            transition: background 0.35s, box-shadow 0.35s, transform 0.35s;
-            cursor: pointer;
-        }
-
-        .rule-dot.on {
-            background: #2563eb;
-            box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
-            transform: scale(1.35);
-        }
-
-        /* thin progress bar */
-        .rule-bar-track {
-            width: 100%;
-            height: 2px;
-            background: rgba(30, 60, 120, 0.1);
-            border-radius: 2px;
-            margin-top: 14px;
-            overflow: hidden;
-        }
-
-        .rule-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #2563eb, #6d3aed);
-            border-radius: 2px;
-            width: 0;
-        }
-
-        .rule-bar-fill.running {
-            animation: barFill 10s linear forwards;
+            text-align: left;
+            line-height: 1.4;
         }
 
         .rule-credit {
             font-size: 0.9rem;
             color: rgba(30, 60, 120, 0.35);
             text-align: right;
-            margin-top: 8px;
+            margin-top: 6px;
             padding-right: 4px;
             letter-spacing: 0.5px;
-        }
-
-        @keyframes barFill {
-            from { width: 0; }
-            to   { width: 100%; }
         }
 
         /* ── Responsive ─────────────────────────── */
@@ -455,40 +327,10 @@
                 transform: translate(-50%, -50%);
                 transform-origin: center center;
             }
-            @keyframes logoFloat {
-                0%, 100% { transform: translate(-50%, -50%); }
-                50%      { transform: translate(-50%, calc(-50% - 10px)); }
-            }
         }
 
         @media (max-width: 480px) {
             .logo-text { letter-spacing: 2px; }
-        }
-
-        /* ── Non-standard aspect ratio: static mode ─ */
-        @media not all and (min-aspect-ratio: 16/10) {
-            .rays,
-            .sun,
-            .glow-spot,
-            #clouds,
-            .chat-backdrop {
-                display: none !important;
-            }
-
-            .logo-area,
-            .rules-card {
-                animation: none !important;
-            }
-        }
-
-        /* ── Paused state (tab hidden) ─────────── */
-        .paused,
-        .paused *,
-        .paused::before,
-        .paused::after,
-        .paused *::before,
-        .paused *::after {
-            animation-play-state: paused !important;
         }
     </style>
 </head>
@@ -499,21 +341,15 @@
         <!-- Sun -->
         <div class="sun">
             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <!-- Outer glow -->
                 <circle cx="50" cy="50" r="48" fill="rgba(200, 230, 255, 0.25)"/>
-                <!-- Main body -->
                 <circle cx="50" cy="50" r="36" fill="#d0e6ff"/>
                 <circle cx="50" cy="50" r="36" fill="url(#sunGrad)" />
-                <!-- Inner highlight -->
                 <ellipse cx="44" cy="40" rx="18" ry="14" fill="rgba(255, 255, 255, 0.45)"/>
-                <!-- Face -->
                 <circle cx="40" cy="48" r="3" fill="rgba(30, 60, 140, 0.7)"/>
                 <circle cx="60" cy="48" r="3" fill="rgba(30, 60, 140, 0.7)"/>
                 <circle cx="39" cy="46" r="1.2" fill="rgba(255,255,255,0.85)"/>
                 <circle cx="59" cy="46" r="1.2" fill="rgba(255,255,255,0.85)"/>
-                <!-- Smile -->
                 <path d="M42,57 Q50,65 58,57" fill="none" stroke="rgba(30, 60, 140, 0.55)" stroke-width="2" stroke-linecap="round"/>
-                <!-- Cheeks -->
                 <ellipse cx="35" cy="56" rx="5" ry="3" fill="rgba(140, 190, 255, 0.4)"/>
                 <ellipse cx="65" cy="56" rx="5" ry="3" fill="rgba(140, 190, 255, 0.4)"/>
                 <defs>
@@ -530,24 +366,53 @@
         <div class="glow-spot" style="width:320px;height:320px;background:rgba(60,145,255,0.18);bottom:8%;right:18%"></div>
         <div class="glow-spot" style="width:260px;height:260px;background:rgba(100,185,255,0.12);top:55%;left:48%"></div>
 
-        <!-- Clouds -->
-        <div id="clouds" aria-hidden="true"></div>
+        <!-- Clouds (static, scattered) -->
+        <div class="cloud sm" style="top:4%;left:8%;opacity:0.8;z-index:3">
+            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
+        </div>
+        <div class="cloud md" style="top:7%;left:55%;opacity:0.75;z-index:3">
+            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
+        </div>
+        <div class="cloud lg" style="top:2%;left:30%;opacity:0.7;z-index:3">
+            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
+        </div>
+        <div class="cloud sm" style="top:36%;left:3%;opacity:0.85;z-index:5">
+            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
+        </div>
+        <div class="cloud md" style="top:40%;left:68%;opacity:0.7;z-index:5">
+            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
+        </div>
+        <div class="cloud lg" style="top:48%;left:35%;opacity:0.75;z-index:5">
+            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
+        </div>
+        <div class="cloud sm" style="top:58%;left:82%;opacity:0.8;z-index:7">
+            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
+        </div>
+        <div class="cloud md" style="top:65%;left:15%;opacity:0.75;z-index:9">
+            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
+        </div>
+        <div class="cloud lg" style="top:83%;left:45%;opacity:0.8;z-index:9">
+            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
+        </div>
+        <div class="cloud sm" style="top:86%;left:75%;opacity:0.9;z-index:9">
+            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
+        </div>
+        <div class="cloud md" style="top:90%;left:5%;opacity:0.7;z-index:9">
+            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
+        </div>
 
         <!-- Hills -->
         <div class="hills">
-            <!-- Back layer -->
             <div class="hill-layer hill-back">
                 <svg viewBox="0 0 1920 450" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0,450 L0,280 L80,240 L180,60 L220,40 L270,90 L340,200 L420,270 L490,110 L520,80 L555,130 L610,155 L680,210 L740,300 L830,285 L920,250 L960,180 L1040,195 L1100,140 L1150,40 L1195,90 L1230,65 L1280,135 L1340,250 L1410,275 L1500,310 L1580,320 L1660,300 L1720,160 L1750,120 L1790,145 L1830,175 L1920,300 L1920,450 Z" fill="#1a4a8a"/>
                 </svg>
             </div>
-            <!-- Mid layer -->
             <div class="hill-layer hill-mid">
                 <svg viewBox="0 0 1920 380" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0,380 L0,220 L60,190 L120,170 L200,200 L290,110 L340,50 L380,30 L420,70 L480,150 L560,210 L680,250 L780,265 L860,245 L940,100 L1000,50 L1045,80 L1100,140 L1180,210 L1260,235 L1350,195 L1430,150 L1530,70 L1580,45 L1600,30 L1635,65 L1700,180 L1780,250 L1850,255 L1920,275 L1920,380 Z" fill="#0f3468"/>
                 </svg>
             </div>
-            <!-- Front layer -->
             <div class="hill-layer hill-front">
                 <svg viewBox="0 0 1920 280" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0,280 L0,170 L50,150 L120,160 L200,130 L300,180 L400,100 L470,30 L510,15 L550,50 L610,110 L700,170 L800,195 L900,190 L1020,155 L1120,90 L1250,35 L1300,20 L1330,50 L1380,105 L1470,165 L1560,195 L1640,180 L1720,160 L1790,175 L1860,195 L1920,210 L1920,280 Z" fill="#06193c"/>
@@ -564,170 +429,31 @@
         <!-- Chat backdrop -->
         <div class="chat-backdrop"></div>
 
-        <!-- Logo at tabs height -->
-        <div class="logo-tabs">
-            <div class="logo-text">foroz</div>
-        </div>
-
-        <!-- Rules -->
+        <!-- Rules (all 4 visible) -->
         <div class="rules-panel">
             <div class="rules-card">
                 <div class="rules-header">Reglas</div>
-                <div class="rule-viewport">
-                    <div class="rule-content in" id="ruleContent">
-                        <div class="rule-num" id="ruleNum">01</div>
-                        <div class="rule-txt" id="ruleTxt"></div>
+                <div class="rules-list">
+                    <div class="rule-item">
+                        <div class="rule-num">01</div>
+                        <div class="rule-txt">Spam: Prohibido, lo que incluye, pero no se limita a, mensajes, links, GIFs y emojis repetitivos.</div>
                     </div>
-                </div>
-                <div class="rule-dots" id="ruleDots"></div>
-                <div class="rule-bar-track">
-                    <div class="rule-bar-fill" id="ruleBar"></div>
+                    <div class="rule-item">
+                        <div class="rule-num">02</div>
+                        <div class="rule-txt">Datos personales: No se debe revelar información personal, incluida, pero no limitada a, la de los usuarios de Foroz o sus familiares.</div>
+                    </div>
+                    <div class="rule-item">
+                        <div class="rule-num">03</div>
+                        <div class="rule-txt">Clonación: Prohibido clonar cuentas de usuario.</div>
+                    </div>
+                    <div class="rule-item">
+                        <div class="rule-num">04</div>
+                        <div class="rule-txt">Menores de edad: Queda prohibido mencionar, involucrar o hacer referencia a hijos, niños o menores de edad de cualquier usuario o en general con el fin de provocar, insultar o molestar.</div>
+                    </div>
                 </div>
                 <div class="rule-credit">©𝑪𝒂𝒔𝒉</div>
             </div>
         </div>
     </div>
-
-    <script>
-        /* ── Rules carousel ─────────────────────── */
-        const rules = [
-            "Spam: Prohibido, lo que incluye, pero no se limita a, mensajes, links, GIFs y emojis repetitivos.",
-            "Datos personales: No se debe revelar información personal, incluida, pero no limitada a, la de los usuarios de Foroz o sus familiares.",
-            "Clonación: Prohibido clonar cuentas de usuario.",
-            "Menores de edad: Queda prohibido mencionar, involucrar o hacer referencia a hijos, niños o menores de edad de cualquier usuario o en general con el fin de provocar, insultar o molestar.",
-        ];
-
-        const INTERVAL = 10000;
-        const FADE_MS  = 380;
-
-        const elContent = document.getElementById("ruleContent");
-        const elNum     = document.getElementById("ruleNum");
-        const elTxt     = document.getElementById("ruleTxt");
-        const elDots    = document.getElementById("ruleDots");
-        const elBar     = document.getElementById("ruleBar");
-
-        let cur = 0;
-
-        // Build dots
-        rules.forEach(function (_, i) {
-            var d = document.createElement("span");
-            d.className = "rule-dot" + (i === 0 ? " on" : "");
-            d.addEventListener("click", function () {
-                goToRule(i);
-            });
-            elDots.appendChild(d);
-        });
-
-        function setRule(index) {
-            elNum.textContent = String(index + 1).padStart(2, "0");
-            elTxt.textContent = rules[index];
-            var dots = elDots.children;
-            for (var i = 0; i < dots.length; i++) {
-                dots[i].classList.toggle("on", i === index);
-            }
-        }
-
-        function restartBar() {
-            elBar.classList.remove("running");
-            void elBar.offsetWidth;          // reflow
-            elBar.classList.add("running");
-        }
-
-        function nextRule() {
-            // fade out
-            elContent.classList.remove("in");
-            elContent.classList.add("out");
-
-            setTimeout(function () {
-                cur = (cur + 1) % rules.length;
-                setRule(cur);
-
-                // fade in
-                elContent.classList.remove("out");
-                elContent.classList.add("in");
-
-                restartBar();
-            }, FADE_MS);
-        }
-
-        function goToRule(index) {
-            if (index === cur) return;
-            clearInterval(autoTimer);
-            elContent.classList.remove("in");
-            elContent.classList.add("out");
-            setTimeout(function () {
-                cur = index;
-                setRule(cur);
-                elContent.classList.remove("out");
-                elContent.classList.add("in");
-                restartBar();
-            }, FADE_MS);
-            autoTimer = setInterval(nextRule, INTERVAL);
-        }
-
-        // Init
-        setRule(0);
-        restartBar();
-        var autoTimer = setInterval(nextRule, INTERVAL);
-
-        /* ── Clouds (skip on portrait/mobile) ──── */
-        var isWidescreen = window.matchMedia("(min-aspect-ratio: 16/10)").matches;
-
-        if (isWidescreen) {
-            var cloudsEl = document.getElementById("clouds");
-
-            var cloudSVG = '<svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg">'
-                + '<ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/>'
-                + '<ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/>'
-                + '<circle  class="cloud-base" cx="50" cy="60" r="32"/>'
-                + '<circle  class="cloud-base" cx="90" cy="48" r="38"/>'
-                + '<circle  class="cloud-base" cx="128" cy="60" r="28"/>'
-                + '<circle  class="cloud-base" cx="38" cy="68" r="24"/>'
-                + '<ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/>'
-                + '<path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/>'
-                + '<ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/>'
-                + '<circle class="cloud-eye-shine" cx="66" cy="69" r="2"/>'
-                + '<ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/>'
-                + '<circle class="cloud-eye-shine" cx="103" cy="69" r="2"/>'
-                + '</svg>';
-
-            var sizes = ["sm", "md", "lg"];
-            var cloudSlots = [
-                { top: "3%",  delay: 0,  dur: 55, z: 3 },
-                { top: "8%",  delay: 12, dur: 70, z: 3 },
-                { top: "35%", delay: 15, dur: 62, z: 5 },
-                { top: "48%", delay: 6,  dur: 65, z: 5 },
-                { top: "55%", delay: 28, dur: 50, z: 7 },
-                { top: "82%", delay: 8,  dur: 60, z: 9 },
-                { top: "88%", delay: 22, dur: 68, z: 9 },
-            ];
-
-            cloudSlots.forEach(function (slot, i) {
-                var c = document.createElement("div");
-                var sz = sizes[i % sizes.length];
-                c.className = "cloud " + sz;
-                c.innerHTML = '<div class="cloud-body">' + cloudSVG + '</div>';
-                c.style.top = slot.top;
-                c.style.left = "-200px";
-                c.style.opacity = 0.7 + Math.random() * 0.3;
-                c.style.zIndex = slot.z;
-                c.style.animationDuration = slot.dur + "s";
-                c.style.animationDelay = slot.delay + "s";
-                cloudsEl.appendChild(c);
-            });
-        }
-
-        /* ── Pause when tab hidden ────────────────── */
-        var sceneEl = document.querySelector(".scene");
-        document.addEventListener("visibilitychange", function () {
-            if (document.hidden) {
-                sceneEl.classList.add("paused");
-                clearInterval(autoTimer);
-            } else {
-                sceneEl.classList.remove("paused");
-                autoTimer = setInterval(nextRule, INTERVAL);
-            }
-        });
-    </script>
 </body>
 </html>
