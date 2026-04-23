@@ -40,9 +40,9 @@
             content: "";
             position: absolute;
             top: 10%;
-            left: 10%;
-            width: 200vmax;
-            height: 200vmax;
+            left: 25%;
+            width: 150vmax;
+            height: 150vmax;
             transform: translate(-50%, -50%) rotate(15deg);
             background: repeating-conic-gradient(
                 rgba(120, 190, 255, 0.06) 0deg 4deg,
@@ -54,9 +54,9 @@
             content: "";
             position: absolute;
             top: 10%;
-            left: 10%;
-            width: 200vmax;
-            height: 200vmax;
+            left: 25%;
+            width: 150vmax;
+            height: 150vmax;
             transform: translate(-50%, -50%) rotate(-10deg);
             background: repeating-conic-gradient(
                 rgba(180, 220, 255, 0.04) 0deg 3deg,
@@ -68,7 +68,7 @@
         .sun {
             position: absolute;
             top: calc(4% + 20px);
-            left: 10%;
+            left: 25%;
             transform: translateX(-50%);
             width: 100px;
             height: 100px;
@@ -92,7 +92,7 @@
             opacity: 0.35;
         }
 
-        /* ── Mario-style clouds ─────────────────── */
+        /* ── Mario-style clouds (static) ────────── */
         .cloud {
             position: absolute;
             pointer-events: none;
@@ -107,8 +107,7 @@
             display: block;
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 3px 0 rgba(80, 140, 220, 0.5))
-                    drop-shadow(0 6px 16px rgba(0, 30, 100, 0.25));
+            filter: drop-shadow(0 4px 10px rgba(0, 30, 100, 0.25));
         }
 
         .cloud-base { fill: #fff; }
@@ -159,13 +158,14 @@
         /* ── Chat backdrop ───────────────────────── */
         .chat-backdrop {
             position: absolute;
-            top: 0;
-            left: 50%;
+            top: 93px;
+            left: 50.25%;
             transform: translateX(-50%);
-            width: 60%;
-            height: 100%;
+            width: 728px;
+            height: 486px;
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
+            border-radius: 16px;
             z-index: 20;
             pointer-events: none;
         }
@@ -242,11 +242,11 @@
         /* ── Rules panel (static, all visible) ──── */
         .rules-panel {
             position: absolute;
-            top: 520px;
+            top: 336px;
             right: 5%;
             transform: translateY(-50%) perspective(800px) rotateY(-10deg);
             transform-origin: left center;
-            width: clamp(260px, 20vw, 350px);
+            width: clamp(220px, 17vw, 290px);
             z-index: 10;
         }
 
@@ -266,7 +266,7 @@
 
         .rules-header {
             font-family: 'Poppins', sans-serif;
-            font-size: 0.95rem;
+            font-size: 0.8rem;
             font-weight: 700;
             color: #fff;
             letter-spacing: 3px;
@@ -293,7 +293,7 @@
 
         .rule-num {
             font-family: 'Lilita One', cursive;
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: rgba(30, 80, 180, 0.3);
             line-height: 1.3;
@@ -302,7 +302,7 @@
 
         .rule-txt {
             font-family: 'Poppins', sans-serif;
-            font-size: 0.875rem;
+            font-size: 0.7rem;
             font-weight: 600;
             color: #1e293b;
             text-align: left;
@@ -388,18 +388,6 @@
         <div class="cloud sm" style="top:58%;left:82%;opacity:0.8;z-index:7">
             <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
         </div>
-        <div class="cloud md" style="top:65%;left:15%;opacity:0.75;z-index:9">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
-        </div>
-        <div class="cloud lg" style="top:83%;left:45%;opacity:0.8;z-index:9">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
-        </div>
-        <div class="cloud sm" style="top:86%;left:75%;opacity:0.9;z-index:9">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
-        </div>
-        <div class="cloud md" style="top:90%;left:5%;opacity:0.7;z-index:9">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
-        </div>
 
         <!-- Hills -->
         <div class="hills">
@@ -428,6 +416,11 @@
 
         <!-- Chat backdrop -->
         <div class="chat-backdrop"></div>
+
+        <!-- Logo at tabs height -->
+        <div class="logo-tabs">
+            <div class="logo-text">foroz</div>
+        </div>
 
         <!-- Rules (all 4 visible) -->
         <div class="rules-panel">
