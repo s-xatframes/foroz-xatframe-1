@@ -6,7 +6,7 @@
     <title>foroz</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chokokutai&family=Lilita+One&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chokokutai&family=Lilita+One&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -18,7 +18,8 @@
         }
 
         body {
-            background: linear-gradient(135deg, #0b1a38 0%, #0f2550 35%, #163566 65%, #1b3f75 100%);
+            /* Soft, muted daytime stadium sky → pitch */
+            background: linear-gradient(180deg, #7d96a3 0%, #97aeb8 22%, #b9c8c2 40%, #7fb866 60%, #3a9a52 80%, #0f7236 100%);
         }
 
         .scene {
@@ -28,134 +29,138 @@
             overflow: hidden;
         }
 
-        /* ── Sun rays (static) ───────────────────── */
-        .rays {
+        /* ── Soccer balls (static) ────────────────── */
+        .ball {
             position: absolute;
-            inset: 0;
             pointer-events: none;
+            z-index: 3;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
+        }
+        .ball svg { display: block; width: 100%; height: 100%; }
+
+        /* ── Confetti (static, festive) ───────────── */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 16px;
+            border-radius: 2px;
+            z-index: 3;
+            pointer-events: none;
+            opacity: 0.92;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+        }
+
+        /* ── Stadium stands + pitch (static) ──────── */
+        .stands {
+            position: absolute;
+            bottom: 196px;
+            left: 0;
+            width: 100%;
+            height: 168px;
+            z-index: 3;
+            pointer-events: none;
+            /* Tiered seating bowl with crowd speckle + seat rows */
+            background-color: #46505d;
+            background-image:
+                radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1.7px),
+                radial-gradient(circle, rgba(206,17,38,0.55) 1px, transparent 1.7px),
+                radial-gradient(circle, rgba(0,104,71,0.55) 1px, transparent 1.7px),
+                radial-gradient(circle, rgba(255,213,74,0.5) 1px, transparent 1.7px),
+                repeating-linear-gradient(0deg, rgba(0,0,0,0.22) 0 1px, transparent 1px 8px),
+                linear-gradient(180deg, #525d6b 0%, #3c4654 60%, #2c333e 100%);
+            background-size: 13px 13px, 19px 19px, 16px 16px, 23px 23px, 100% 8px, 100% 100%;
+            background-position: 0 0, 7px 5px, 4px 9px, 11px 3px, 0 0, 0 0;
+            box-shadow:
+                inset 0 14px 22px rgba(0,0,0,0.4),
+                inset 0 -6px 10px rgba(0,0,0,0.25);
+        }
+        /* Stadium roof overhang */
+        .stands::before {
+            content: "";
+            position: absolute;
+            top: -14px;
+            left: 0;
+            width: 100%;
+            height: 18px;
+            background: linear-gradient(180deg, #20272f 0%, #2c343d 70%, #161b21 100%);
+            border-bottom: 2px solid rgba(0,0,0,0.35);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+        }
+        /* Front advertising boards */
+        .ad-board {
+            position: absolute;
+            bottom: 190px;
+            left: 0;
+            width: 100%;
+            height: 24px;
+            z-index: 5;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
             overflow: hidden;
+            white-space: nowrap;
+            background: linear-gradient(180deg, #008f5a 0%, #006847 55%, #004d34 100%);
+            border-top: 2px solid rgba(255,255,255,0.6);
+            border-bottom: 2px solid rgba(0,0,0,0.35);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.35);
+        }
+        .ad-board .ad-text {
+            font-family: 'Lilita One', cursive;
+            font-size: 0.82rem;
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-transform: uppercase;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.45);
+            padding: 0 2px;
+        }
+        .ad-board .ad-ball {
+            width: 15px;
+            height: 15px;
+            margin: 0 11px;
+            vertical-align: -2px;
+            flex-shrink: 0;
         }
 
-        .rays::before {
+        .pitch {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 210px;
+            z-index: 4;
+            pointer-events: none;
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(255,255,255,0.04) 0 6%,
+                    transparent 6% 12%
+                ),
+                linear-gradient(180deg, #137a44 0%, #0b6336 60%, #094f2c 100%);
+            box-shadow: inset 0 14px 30px rgba(0, 50, 22, 0.55);
+        }
+        .pitch::before {
             content: "";
             position: absolute;
-            top: 10%;
-            left: 25%;
-            width: 150vmax;
-            height: 150vmax;
-            transform: translate(-50%, -50%) rotate(15deg);
-            background: repeating-conic-gradient(
-                rgba(120, 190, 255, 0.06) 0deg 4deg,
-                transparent 4deg 20deg
-            );
-        }
-
-        .rays::after {
-            content: "";
-            position: absolute;
-            top: 10%;
-            left: 25%;
-            width: 150vmax;
-            height: 150vmax;
-            transform: translate(-50%, -50%) rotate(-10deg);
-            background: repeating-conic-gradient(
-                rgba(180, 220, 255, 0.04) 0deg 3deg,
-                transparent 3deg 15deg
-            );
-        }
-
-        /* ── Sun ────────────────────────────────── */
-        .sun {
-            position: absolute;
-            top: calc(4% + 20px);
-            left: 25%;
+            top: 22px;
+            left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 100px;
-            z-index: 2;
-            pointer-events: none;
-            filter: drop-shadow(0 0 30px rgba(140, 200, 255, 0.4))
-                    drop-shadow(0 0 60px rgba(100, 180, 255, 0.2));
-        }
-
-        .sun svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* ── Ambient glow spots ─────────────────── */
-        .glow-spot {
-            position: absolute;
+            width: 130px;
+            height: 130px;
+            border: 4px solid rgba(255, 255, 255, 0.55);
             border-radius: 50%;
-            filter: blur(90px);
-            pointer-events: none;
-            opacity: 0.35;
         }
-
-        /* ── Mario-style clouds (static) ────────── */
-        .cloud {
+        .pitch::after {
+            content: "";
             position: absolute;
-            pointer-events: none;
-        }
-
-        .cloud-body {
-            position: relative;
-            display: inline-block;
-        }
-
-        .cloud-body svg {
-            display: block;
-            width: 100%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
             height: 100%;
-            filter: drop-shadow(0 4px 10px rgba(0, 30, 100, 0.25));
+            background: rgba(255, 255, 255, 0.5);
         }
 
-        .cloud-base { fill: #fff; }
-        .cloud-shade { fill: #d0e4ff; }
-        .cloud-highlight { fill: #f0f8ff; }
-        .cloud-outline {
-            fill: none;
-            stroke: rgba(80, 130, 200, 0.6);
-            stroke-width: 2.5;
-            stroke-linejoin: round;
-        }
-        .cloud-eye { fill: #1a3a6a; }
-        .cloud-eye-shine { fill: #fff; }
-
-        .cloud.sm .cloud-body { width: 90px; height: 62px; }
-        .cloud.md .cloud-body { width: 140px; height: 95px; }
-        .cloud.lg .cloud-body { width: 195px; height: 130px; }
-
-        /* ── Mario hills ─────────────────────────── */
-        .hills {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .hill-layer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            pointer-events: none;
-        }
-
-        .hill-layer svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        .hill-back { height: 450px; z-index: 4; }
-        .hill-mid { height: 380px; z-index: 6; }
-        .hill-front { height: 280px; z-index: 8; }
-
-        /* ── Chat backdrop ───────────────────────── */
+        /* ── Chat backdrop (blur-free frosted panel) ── */
         .chat-backdrop {
             position: absolute;
             top: 93px;
@@ -163,9 +168,19 @@
             transform: translateX(-50%);
             width: 728px;
             height: 486px;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            /* Semi-opaque frosted glass (no backdrop-filter): masks the hard
+               lines of the stands/ad-board behind it so chat text stays clean,
+               tinted with the sky palette to blend into the scene. */
+            background: linear-gradient(180deg,
+                rgba(225, 234, 238, 0.88) 0%,
+                rgba(214, 226, 228, 0.86) 45%,
+                rgba(206, 222, 214, 0.88) 100%);
             border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.65),
+                inset 0 0 0 1px rgba(0, 0, 0, 0.06),
+                0 12px 34px rgba(0, 0, 0, 0.2);
             z-index: 20;
             pointer-events: none;
         }
@@ -181,10 +196,10 @@
         }
 
         .logo-tabs .logo-text {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             letter-spacing: 2px;
             text-shadow: none;
-            -webkit-text-stroke: 1px #0b1a38;
+            -webkit-text-stroke: 1px #05130b;
             paint-order: stroke fill;
         }
 
@@ -193,132 +208,247 @@
             position: absolute;
             left: 5%;
             top: calc(50% - 100px);
-            transform: translateY(-50%) perspective(800px) rotateY(18deg);
+            transform: translateY(-50%) perspective(800px) rotateY(16deg);
             transform-origin: right center;
             z-index: 5;
         }
 
         .logo-text {
             font-family: 'Chokokutai', cursive;
-            font-size: clamp(4rem, 8vw, 6.5rem);
+            font-size: clamp(2.8rem, 5.5vw, 4.5rem);
             font-weight: 800;
-            color: #fff;
-            letter-spacing: 5px;
+            color: #eafff1;
+            letter-spacing: 4px;
             line-height: 1;
             text-shadow:
-                0  1px 0 #e4edff,
-                0  2px 0 #dce8ff,
-                0  3px 0 #d0e0ff,
-                0  4px 0 #c4d8ff,
-                0  5px 0 #b8d0fa,
-                0  6px 0 #a8c4f5,
-                0  7px 0 #98b8f0,
-                0  8px 0 #88abeb,
-                0  9px 0 #78a0e6,
-                0 10px 0 #6894e0,
-                0 11px 0 #5888da,
-                0 12px 0 #487cd4,
-                0 13px 0 #3870ce,
-                0 14px 0 #2864c8,
-                0 15px 0 #1a58c2,
-                0 16px 0 #104cbc,
-                0 18px 18px rgba(8, 40, 130, 0.55),
-                0 24px 40px rgba(10, 50, 160, 0.35),
-                0 30px 60px rgba(10, 40, 140, 0.2),
-                0  0  80px rgba(90, 165, 255, 0.2);
+                0  1px 0 #c8f5d8,
+                0  2px 0 #9fe9ba,
+                0  3px 0 #6fd996,
+                0  4px 0 #38c771,
+                0  5px 0 #1eb35f,
+                0  6px 0 #129f52,
+                0  7px 0 #0a8a47,
+                0  8px 0 #06753c,
+                0  9px 0 #046032,
+                0 10px 0 #024d28,
+                0 12px 16px rgba(0, 40, 18, 0.6),
+                0 18px 35px rgba(0, 60, 28, 0.4),
+                0 24px 50px rgba(0, 50, 24, 0.25),
+                0  0  60px rgba(120, 255, 175, 0.18);
             user-select: text;
         }
 
         .logo-sub {
             font-family: 'Poppins', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: rgba(170, 210, 255, 0.45);
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #ffffff;
             letter-spacing: 4px;
             margin-top: 10px;
             margin-left: 6px;
+            text-shadow:
+                0 1px 3px rgba(0, 0, 0, 0.6),
+                0 0 10px rgba(0, 0, 0, 0.4);
         }
 
-        /* ── Rules panel (static, all visible) ──── */
+        .logo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            margin-left: 4px;
+            padding: 7px 16px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(0,104,71,0.92), rgba(206,17,38,0.92));
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+        }
+        .logo-badge span {
+            font-family: 'Lilita One', cursive;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.45);
+        }
+        .logo-badge .badge-ball {
+            width: 17px;
+            height: 17px;
+            vertical-align: -3px;
+            margin-right: 7px;
+        }
+
+        /* ── Match banner (México vs Corea) ──────── */
+        .match-banner {
+            position: absolute;
+            bottom: 10px;
+            left: 50.25%;
+            transform: translateX(-50%);
+            z-index: 22;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 6px 15px;
+            border-radius: 11px;
+            background: rgba(5, 20, 14, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+        }
+
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            min-width: 58px;
+        }
+        .team .flag {
+            width: 38px;
+            height: 26px;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .team .flag svg { display: block; width: 100%; height: 100%; }
+        .team .name {
+            font-family: 'Lilita One', cursive;
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.55);
+        }
+
+        .vs-block { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+        .vs-block .vs {
+            font-family: 'Chokokutai', cursive;
+            font-size: 1.15rem;
+            color: #ffd54a;
+            text-shadow: 0 2px 0 #b8860b, 0 0 14px rgba(255, 213, 74, 0.5);
+            line-height: 1;
+        }
+        .vs-block .when {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.54rem;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            color: rgba(255, 255, 255, 0.82);
+            text-transform: uppercase;
+            width: 66px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ── Rules panel (match-ticket / team sheet) ── */
         .rules-panel {
             position: absolute;
             top: 336px;
             right: 5%;
-            transform: translateY(-50%) perspective(800px) rotateY(-10deg);
+            transform: translateY(-50%) perspective(1000px) rotateY(-8deg);
             transform-origin: left center;
-            width: clamp(220px, 17vw, 290px);
+            width: clamp(230px, 18vw, 300px);
             z-index: 10;
         }
 
         .rules-card {
-            background: rgba(255, 255, 255, 0.748);
-            backdrop-filter: blur(9px);
-            -webkit-backdrop-filter: blur(9px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 10px;
-            padding: 0 0 8px;
+            position: relative;
+            background: #fbf7ef;
+            border-radius: 18px;
+            padding: 0 0 14px;
             box-shadow:
-                0 24px 64px rgba(0, 0, 0, 0.18),
-                0  4px 12px rgba(0, 0, 0, 0.08),
-                0  0  40px rgba(60, 140, 255, 0.08);
+                0 26px 60px rgba(0, 0, 0, 0.4),
+                0  6px 16px rgba(0, 0, 0, 0.22);
             overflow: hidden;
         }
 
+        /* Scoreboard top bar */
         .rules-header {
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 700;
+            position: relative;
+            font-family: 'Lilita One', cursive;
+            font-size: 1.15rem;
+            font-weight: 400;
             color: #fff;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             text-transform: uppercase;
             text-align: center;
-            padding: 14px 26px;
+            padding: 14px 26px 16px;
             margin: 0;
-            background: linear-gradient(135deg, #1a4a8a, #0f3468);
-            border-bottom: 1px solid rgba(100, 180, 255, 0.15);
+            background: linear-gradient(100deg, #006847 0%, #008f5a 50%, #ce1126 100%);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+        }
+        /* Field-line stripe under header */
+        .rules-header::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 5px;
+            background: repeating-linear-gradient(
+                90deg,
+                #ffd54a 0 14px,
+                #1a1a1a 14px 28px
+            );
         }
 
         .rules-list {
-            padding: 16px 18px 10px;
+            padding: 16px 16px 4px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 10px;
         }
 
         .rule-item {
             display: flex;
-            gap: 10px;
-            align-items: flex-start;
+            gap: 12px;
+            align-items: center;
+            background: #fff;
+            border-radius: 12px;
+            padding: 9px 12px;
+            box-shadow: 0 2px 6px rgba(0, 70, 40, 0.08);
+            border-left: 4px solid #006847;
         }
 
+        /* Jersey number badge */
         .rule-num {
             font-family: 'Lilita One', cursive;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: rgba(30, 80, 180, 0.3);
-            line-height: 1.3;
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: #fff;
             flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 35% 30%, #18a866, #006847);
+            box-shadow: inset 0 -2px 3px rgba(0,0,0,0.25), 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .rule-txt {
             font-family: 'Poppins', sans-serif;
-            font-size: 0.7rem;
+            font-size: 0.72rem;
             font-weight: 600;
-            color: #1e293b;
+            color: #243027;
             text-align: left;
-            line-height: 1.4;
+            line-height: 1.35;
         }
 
         .rule-credit {
-            font-size: 0.9rem;
-            color: rgba(30, 60, 120, 0.35);
+            font-size: 0.82rem;
+            color: #006847;
+            font-weight: 700;
             text-align: right;
-            margin-top: 6px;
-            padding-right: 4px;
+            margin-top: 10px;
+            padding-right: 14px;
             letter-spacing: 0.5px;
         }
 
-        /* ── Responsive ─────────────────────────── */
+        /* ── Responsive (landscape only) ─────────── */
         @media (max-width: 960px) {
             .rules-panel { display: none; }
             .logo-area {
@@ -327,84 +457,103 @@
                 transform: translate(-50%, -50%);
                 transform-origin: center center;
             }
+            .logo-badge { margin-left: 0; }
         }
 
         @media (max-width: 480px) {
             .logo-text { letter-spacing: 2px; }
+            .team .name { font-size: 0.78rem; }
+        }
+
+        /* ── Portrait / vertical (phones): load nothing ── */
+        @media (max-aspect-ratio: 1/1) {
+            body { background: #aee2ff; }
+            .scene { display: none !important; }
         }
     </style>
 </head>
 <body>
     <div class="scene">
-        <div class="rays"></div>
+        <!-- Reusable detailed soccer ball (defined once) -->
+        <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+            <defs>
+                <clipPath id="ballClip"><circle cx="50" cy="50" r="46.5"/></clipPath>
+                <g id="soccerball">
+                    <circle cx="50" cy="50" r="46.5" fill="#ffffff" stroke="#0b0b0b" stroke-width="3"/>
+                    <g clip-path="url(#ballClip)" fill="#161616">
+                        <polygon points="50,33 66.2,44.8 60,63.8 40,63.8 33.8,44.8"/>
+                        <polygon points="50,17 39.54,9.4 43.53,-2.9 56.47,-2.9 60.46,9.4"/>
+                        <polygon points="81.34,39.8 85.33,27.5 98.27,27.5 102.26,39.8 91.8,47.4"/>
+                        <polygon points="69.43,76.7 82.37,76.7 86.36,89 75.9,96.6 65.44,89"/>
+                        <polygon points="30.57,76.7 34.56,89 24.1,96.6 13.64,89 17.63,76.7"/>
+                        <polygon points="18.66,39.8 8.2,47.4 -2.26,39.8 1.73,27.5 14.67,27.5"/>
+                    </g>
+                    <g stroke="#161616" stroke-width="2.4" stroke-linecap="round">
+                        <line x1="50" y1="33" x2="50" y2="17"/>
+                        <line x1="66.2" y1="44.8" x2="81.34" y2="39.8"/>
+                        <line x1="60" y1="63.8" x2="69.43" y2="76.7"/>
+                        <line x1="40" y1="63.8" x2="30.57" y2="76.7"/>
+                        <line x1="33.8" y1="44.8" x2="18.66" y2="39.8"/>
+                    </g>
+                </g>
+            </defs>
+        </svg>
 
-        <!-- Sun -->
-        <div class="sun">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="48" fill="rgba(200, 230, 255, 0.25)"/>
-                <circle cx="50" cy="50" r="36" fill="#d0e6ff"/>
-                <circle cx="50" cy="50" r="36" fill="url(#sunGrad)" />
-                <ellipse cx="44" cy="40" rx="18" ry="14" fill="rgba(255, 255, 255, 0.45)"/>
-                <circle cx="40" cy="48" r="3" fill="rgba(30, 60, 140, 0.7)"/>
-                <circle cx="60" cy="48" r="3" fill="rgba(30, 60, 140, 0.7)"/>
-                <circle cx="39" cy="46" r="1.2" fill="rgba(255,255,255,0.85)"/>
-                <circle cx="59" cy="46" r="1.2" fill="rgba(255,255,255,0.85)"/>
-                <path d="M42,57 Q50,65 58,57" fill="none" stroke="rgba(30, 60, 140, 0.55)" stroke-width="2" stroke-linecap="round"/>
-                <ellipse cx="35" cy="56" rx="5" ry="3" fill="rgba(140, 190, 255, 0.4)"/>
-                <ellipse cx="65" cy="56" rx="5" ry="3" fill="rgba(140, 190, 255, 0.4)"/>
-                <defs>
-                    <radialGradient id="sunGrad" cx="40%" cy="38%" r="55%">
-                        <stop offset="0%" stop-color="rgba(235, 245, 255, 0.9)"/>
-                        <stop offset="100%" stop-color="rgba(170, 215, 255, 0.7)"/>
-                    </radialGradient>
-                </defs>
-            </svg>
-        </div>
+        <!-- Confetti (static) -->
+        <div class="confetti" style="top:8%;left:6%;background:#006847;transform:rotate(18deg)"></div>
+        <div class="confetti" style="top:12%;left:22%;background:#ce1126;transform:rotate(-25deg)"></div>
+        <div class="confetti" style="top:6%;left:40%;background:#ffffff;transform:rotate(40deg)"></div>
+        <div class="confetti" style="top:16%;left:60%;background:#ffd54a;transform:rotate(-12deg)"></div>
+        <div class="confetti" style="top:9%;left:78%;background:#ce1126;transform:rotate(30deg)"></div>
+        <div class="confetti" style="top:20%;left:90%;background:#006847;transform:rotate(-40deg)"></div>
+        <div class="confetti" style="top:30%;left:14%;background:#ffd54a;transform:rotate(22deg)"></div>
+        <div class="confetti" style="top:34%;left:84%;background:#ffffff;transform:rotate(-18deg)"></div>
 
-        <!-- Ambient glow -->
-        <div class="glow-spot" style="width:420px;height:420px;background:rgba(30,100,220,0.28);top:15%;left:12%"></div>
-        <div class="glow-spot" style="width:320px;height:320px;background:rgba(60,145,255,0.18);bottom:8%;right:18%"></div>
-        <div class="glow-spot" style="width:260px;height:260px;background:rgba(100,185,255,0.12);top:55%;left:48%"></div>
-
-        <!-- Clouds (static, scattered) -->
-        <div class="cloud sm" style="top:4%;left:8%;opacity:0.8;z-index:3">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
+        <!-- Soccer balls -->
+        <div class="ball" style="top:12%;left:1.5%;width:60px;height:60px">
+            <svg viewBox="0 0 100 100"><use href="#soccerball"/></svg>
         </div>
-        <div class="cloud md" style="top:7%;left:55%;opacity:0.75;z-index:3">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
-        </div>
-        <div class="cloud lg" style="top:2%;left:30%;opacity:0.7;z-index:3">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
-        </div>
-        <div class="cloud sm" style="top:36%;left:3%;opacity:0.85;z-index:5">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
-        </div>
-        <div class="cloud md" style="top:40%;left:68%;opacity:0.7;z-index:5">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
-        </div>
-        <div class="cloud lg" style="top:48%;left:35%;opacity:0.75;z-index:5">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
-        </div>
-        <div class="cloud sm" style="top:58%;left:82%;opacity:0.8;z-index:7">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
+        <div class="ball" style="top:66%;left:91%;width:52px;height:52px">
+            <svg viewBox="0 0 100 100"><use href="#soccerball"/></svg>
         </div>
 
-        <!-- Hills -->
-        <div class="hills">
-            <div class="hill-layer hill-back">
-                <svg viewBox="0 0 1920 450" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0,450 L0,280 L80,240 L180,60 L220,40 L270,90 L340,200 L420,270 L490,110 L520,80 L555,130 L610,155 L680,210 L740,300 L830,285 L920,250 L960,180 L1040,195 L1100,140 L1150,40 L1195,90 L1230,65 L1280,135 L1340,250 L1410,275 L1500,310 L1580,320 L1660,300 L1720,160 L1750,120 L1790,145 L1830,175 L1920,300 L1920,450 Z" fill="#1a4a8a"/>
-                </svg>
+        <!-- Stadium stands -->
+        <div class="stands"></div>
+
+        <!-- Advertising board -->
+        <div class="ad-board">
+            <span class="ad-text">FOROZ<svg class="ad-ball" viewBox="0 0 100 100"><use href="#soccerball"/></svg>MUNDIAL 2026<svg class="ad-ball" viewBox="0 0 100 100"><use href="#soccerball"/></svg>FOROZ<svg class="ad-ball" viewBox="0 0 100 100"><use href="#soccerball"/></svg>MUNDIAL 2026<svg class="ad-ball" viewBox="0 0 100 100"><use href="#soccerball"/></svg>FOROZ<svg class="ad-ball" viewBox="0 0 100 100"><use href="#soccerball"/></svg>MUNDIAL 2026<svg class="ad-ball" viewBox="0 0 100 100"><use href="#soccerball"/></svg>FOROZ<svg class="ad-ball" viewBox="0 0 100 100"><use href="#soccerball"/></svg>MUNDIAL 2026<svg class="ad-ball" viewBox="0 0 100 100"><use href="#soccerball"/></svg></span>
+        </div>
+
+        <!-- Soccer pitch -->
+        <div class="pitch"></div>
+
+        <!-- Match banner -->
+        <div class="match-banner">
+            <div class="team">
+                <div class="flag">
+                    <svg viewBox="0 0 9 6" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="3" height="6" x="0" fill="#006847"/>
+                        <rect width="3" height="6" x="3" fill="#ffffff"/>
+                        <rect width="3" height="6" x="6" fill="#ce1126"/>
+                        <circle cx="4.5" cy="3" r="0.9" fill="#7a5230"/>
+                    </svg>
+                </div>
+                <div class="name">MÉXICO</div>
             </div>
-            <div class="hill-layer hill-mid">
-                <svg viewBox="0 0 1920 380" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0,380 L0,220 L60,190 L120,170 L200,200 L290,110 L340,50 L380,30 L420,70 L480,150 L560,210 L680,250 L780,265 L860,245 L940,100 L1000,50 L1045,80 L1100,140 L1180,210 L1260,235 L1350,195 L1430,150 L1530,70 L1580,45 L1600,30 L1635,65 L1700,180 L1780,250 L1850,255 L1920,275 L1920,380 Z" fill="#0f3468"/>
-                </svg>
+            <div class="vs-block">
+                <div class="vs">VS</div>
+                <div class="when" id="cd">--:--:--</div>
             </div>
-            <div class="hill-layer hill-front">
-                <svg viewBox="0 0 1920 280" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0,280 L0,170 L50,150 L120,160 L200,130 L300,180 L400,100 L470,30 L510,15 L550,50 L610,110 L700,170 L800,195 L900,190 L1020,155 L1120,90 L1250,35 L1300,20 L1330,50 L1380,105 L1470,165 L1560,195 L1640,180 L1720,160 L1790,175 L1860,195 L1920,210 L1920,280 Z" fill="#06193c"/>
-                </svg>
+            <div class="team">
+                <div class="flag">
+                    <svg viewBox="0 0 9 6" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="9" height="6" fill="#ffffff"/>
+                        <circle cx="4.5" cy="3" r="1.3" fill="#cd2e3a"/>
+                        <path d="M3.2,3 a1.3,1.3 0 0,1 2.6,0 a0.65,0.65 0 0,1 -1.3,0 a0.65,0.65 0 0,0 -1.3,0" fill="#0047a0"/>
+                    </svg>
+                </div>
+                <div class="name">COREA</div>
             </div>
         </div>
 
@@ -412,6 +561,7 @@
         <div class="logo-area">
             <div class="logo-text">foroz</div>
             <div class="logo-sub">xat.com/foroz</div>
+            <div class="logo-badge"><span><svg class="badge-ball" viewBox="0 0 100 100"><use href="#soccerball"/></svg>MUNDIAL 2026</span></div>
         </div>
 
         <!-- Chat backdrop -->
@@ -422,31 +572,53 @@
             <div class="logo-text">foroz</div>
         </div>
 
-        <!-- Rules (all 4 visible) -->
+        <!-- Rules (match-ticket card) -->
         <div class="rules-panel">
             <div class="rules-card">
                 <div class="rules-header">Reglas</div>
                 <div class="rules-list">
                     <div class="rule-item">
-                        <div class="rule-num">01</div>
+                        <div class="rule-num">1</div>
                         <div class="rule-txt">Spam: Prohibido, lo que incluye, pero no se limita a, mensajes, links, GIFs y emojis repetitivos.</div>
                     </div>
                     <div class="rule-item">
-                        <div class="rule-num">02</div>
+                        <div class="rule-num">2</div>
                         <div class="rule-txt">Datos personales: No se debe revelar información personal, incluida, pero no limitada a, la de los usuarios de Foroz o sus familiares.</div>
                     </div>
                     <div class="rule-item">
-                        <div class="rule-num">03</div>
+                        <div class="rule-num">3</div>
                         <div class="rule-txt">Clonación: Prohibido clonar cuentas de usuario.</div>
                     </div>
                     <div class="rule-item">
-                        <div class="rule-num">04</div>
-                        <div class="rule-txt">Menores de edad: Queda prohibido mencionar, involucrar o hacer referencia a hijos, niños o menores de edad de cualquier usuario o en general con el fin de provocar, insultar o molestar.</div>
+                        <div class="rule-num">4</div>
+                        <div class="rule-txt">Menores de edad: Queda prohibido mencionar, involucrar o hacer referencia a menores de edad con el fin de provocar, insultar o molestar.</div>
                     </div>
                 </div>
                 <div class="rule-credit">©𝑪𝒂𝒔𝒉</div>
             </div>
         </div>
     </div>
+
+    <script>
+        (function () {
+            // Kickoff: 18 Jun 2026, 19:00 (local time). Month is 0-indexed.
+            var target = new Date(2026, 5, 18, 19, 0, 0).getTime();
+            var el = document.getElementById("cd");
+            function pad(n) { return (n < 10 ? "0" : "") + n; }
+            function tick() {
+                var diff = target - Date.now();
+                if (diff <= 0) {
+                    el.textContent = "¡EN VIVO!";
+                    return;
+                }
+                var h = Math.floor(diff / 3600000);
+                var m = Math.floor((diff % 3600000) / 60000);
+                var s = Math.floor((diff % 60000) / 1000);
+                el.textContent = pad(h) + ":" + pad(m) + ":" + pad(s);
+                setTimeout(tick, 1000);
+            }
+            tick();
+        })();
+    </script>
 </body>
 </html>
