@@ -168,19 +168,19 @@
             transform: translateX(-50%);
             width: 728px;
             height: 486px;
-            /* Semi-opaque frosted glass (no backdrop-filter): masks the hard
+            /* Dark semi-opaque glass (no backdrop-filter): masks the hard
                lines of the stands/ad-board behind it so chat text stays clean,
-               tinted with the sky palette to blend into the scene. */
+               in deep stadium-green tones that match the pitch palette. */
             background: linear-gradient(180deg,
-                rgba(225, 234, 238, 0.88) 0%,
-                rgba(214, 226, 228, 0.86) 45%,
-                rgba(206, 222, 214, 0.88) 100%);
+                rgba(13, 38, 27, 0.9) 0%,
+                rgba(9, 30, 21, 0.91) 45%,
+                rgba(7, 26, 18, 0.92) 100%);
             border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(120, 200, 150, 0.22);
             box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.65),
-                inset 0 0 0 1px rgba(0, 0, 0, 0.06),
-                0 12px 34px rgba(0, 0, 0, 0.2);
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                inset 0 0 40px rgba(0, 0, 0, 0.35),
+                0 12px 34px rgba(0, 0, 0, 0.32);
             z-index: 20;
             pointer-events: none;
         }
