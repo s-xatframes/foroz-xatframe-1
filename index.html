@@ -181,8 +181,18 @@
         }
 
         .logo-tabs .logo-text {
+            font-family: 'Lilita One', cursive;
+            font-size: 0.68rem;
+            letter-spacing: 1px;
+            color: #ffd54a;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+            -webkit-text-stroke: 0;
+        }
+        .logo-tabs .tabs-foroz {
+            font-family: 'Chokokutai', cursive;
             font-size: 0.85rem;
             letter-spacing: 2px;
+            color: #fff;
             text-shadow: none;
             -webkit-text-stroke: 1px #0b1a38;
             paint-order: stroke fill;
@@ -490,7 +500,7 @@
 
         <!-- Logo at tabs height -->
         <div class="logo-tabs">
-            <div class="logo-text">foroz</div>
+            <div class="logo-text">Bingo de 11k ·<span id="bingoCdTabs" style="display:inline-block;width:64px;text-align:center;font-variant-numeric:tabular-nums">--:--:--</span>· <span class="tabs-foroz">foroz</span></div>
         </div>
 
         <!-- Rules (all 4 visible) -->
@@ -525,18 +535,19 @@
             // Bingo start: 19 Jun 2026, 20:00 Mexico City time (UTC-6).
             // Anchored in UTC so it counts down correctly in any timezone.
             var target = Date.UTC(2026, 5, 20, 2, 0, 0); // 20:00 MX = 02:00 UTC next day
-            var el = document.getElementById("bingoCd");
+            var els = [document.getElementById("bingoCd"), document.getElementById("bingoCdTabs")];
+            function setText(t) { for (var i = 0; i < els.length; i++) { if (els[i]) els[i].textContent = t; } }
             function pad(n) { return (n < 10 ? "0" : "") + n; }
             function tick() {
                 var diff = target - Date.now();
                 if (diff <= 0) {
-                    el.textContent = "¡EN VIVO!";
+                    setText("¡EN VIVO!");
                     return;
                 }
                 var h = Math.floor(diff / 3600000);
                 var m = Math.floor((diff % 3600000) / 60000);
                 var s = Math.floor((diff % 60000) / 1000);
-                el.textContent = pad(h) + ":" + pad(m) + ":" + pad(s);
+                setText(pad(h) + ":" + pad(m) + ":" + pad(s));
                 setTimeout(tick, 1000);
             }
             tick();
