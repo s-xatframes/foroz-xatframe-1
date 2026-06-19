@@ -318,6 +318,64 @@
             letter-spacing: 0.5px;
         }
 
+        /* ── Bingo banner (bottom) ──────────────── */
+        .bingo-banner {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 22;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 10px 22px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(26, 74, 138, 0.94), rgba(15, 52, 104, 0.96));
+            border: 1px solid rgba(150, 200, 255, 0.4);
+            box-shadow: 0 12px 32px rgba(5, 25, 60, 0.5), inset 0 1px 0 rgba(255,255,255,0.15);
+            white-space: nowrap;
+        }
+        .bingo-info { display: flex; flex-direction: column; gap: 2px; }
+        .bingo-title {
+            font-family: 'Lilita One', cursive;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+        }
+        .bingo-prize {
+            font-family: 'Lilita One', cursive;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            color: #ffd54a;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+        }
+        .bingo-sep {
+            width: 1px;
+            align-self: stretch;
+            background: rgba(150, 200, 255, 0.3);
+        }
+        .bingo-timer { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+        .bingo-label {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.55rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: rgba(190, 220, 255, 0.85);
+        }
+        .bingo-cd {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 1px;
+            width: 96px;
+            text-align: center;
+            white-space: nowrap;
+            font-variant-numeric: tabular-nums;
+        }
+
         /* ── Responsive ─────────────────────────── */
         @media (max-width: 960px) {
             .rules-panel { display: none; }
@@ -414,6 +472,19 @@
             <div class="logo-sub">xat.com/foroz</div>
         </div>
 
+        <!-- Bingo banner -->
+        <div class="bingo-banner">
+            <div class="bingo-info">
+                <div class="bingo-title">¡Gran Bingo de Foroz!</div>
+                <div class="bingo-prize">11K xats en premios</div>
+            </div>
+            <div class="bingo-sep"></div>
+            <div class="bingo-timer">
+                <div class="bingo-label">Empieza en</div>
+                <div class="bingo-cd" id="bingoCd">--:--:--</div>
+            </div>
+        </div>
+
         <!-- Chat backdrop -->
         <div class="chat-backdrop"></div>
 
@@ -448,5 +519,28 @@
             </div>
         </div>
     </div>
+
+    <script>
+        (function () {
+            // Bingo start: 19 Jun 2026, 20:00 Mexico City time (UTC-6).
+            // Anchored in UTC so it counts down correctly in any timezone.
+            var target = Date.UTC(2026, 5, 20, 2, 0, 0); // 20:00 MX = 02:00 UTC next day
+            var el = document.getElementById("bingoCd");
+            function pad(n) { return (n < 10 ? "0" : "") + n; }
+            function tick() {
+                var diff = target - Date.now();
+                if (diff <= 0) {
+                    el.textContent = "¡EN VIVO!";
+                    return;
+                }
+                var h = Math.floor(diff / 3600000);
+                var m = Math.floor((diff % 3600000) / 60000);
+                var s = Math.floor((diff % 60000) / 1000);
+                el.textContent = pad(h) + ":" + pad(m) + ":" + pad(s);
+                setTimeout(tick, 1000);
+            }
+            tick();
+        })();
+    </script>
 </body>
 </html>
