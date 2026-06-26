@@ -249,6 +249,81 @@
             margin-left: 6px;
         }
 
+        /* Orca over the second "o" of the big logo (revealed at 16:00) */
+        .orca-o {
+            position: relative;
+        }
+        .orca-o.reveal {
+            color: transparent;
+            text-shadow: none;
+        }
+        .logo-orca {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            height: 0.95em;
+            width: auto;
+            pointer-events: none;
+            filter: drop-shadow(0 7px 8px rgba(8, 40, 130, 0.45));
+        }
+        .orca-o.reveal .logo-orca { display: block; }
+
+        /* Birthday greeting on a hanging wooden sign (revealed at 16:00 MX / 00:00 Spain) */
+        .logo-greet {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 20px;
+            margin-top: 18px;
+        }
+        .logo-greet.show { display: block; }
+
+        .wood-sign {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            padding: 9px 18px;
+            border-radius: 7px;
+            font-family: 'Lilita One', cursive;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            color: #fff6e2;
+            text-shadow: 0 1px 0 #4a2e12, 0 2px 3px rgba(0, 0, 0, 0.5);
+            background:
+                repeating-linear-gradient(90deg, rgba(0,0,0,0.07) 0 2px, transparent 2px 11px),
+                linear-gradient(180deg, #b57b41 0%, #98602f 52%, #784a22 100%);
+            border: 2px solid #5c3a1a;
+            box-shadow:
+                0 10px 20px rgba(0, 0, 0, 0.4),
+                inset 0 2px 4px rgba(255, 220, 170, 0.3),
+                inset 0 -3px 6px rgba(0, 0, 0, 0.3);
+        }
+        /* Two ropes going up toward the big logo */
+        .wood-sign::before,
+        .wood-sign::after {
+            content: "";
+            position: absolute;
+            top: -56px;
+            width: 4px;
+            height: 58px;
+            background: repeating-linear-gradient(0deg, #d4ab63 0 4px, #a4783c 4px 8px);
+            border-radius: 2px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        .wood-sign::before { left: 22px; transform: rotate(9deg); transform-origin: bottom center; }
+        .wood-sign::after { right: 22px; transform: rotate(-9deg); transform-origin: bottom center; }
+
+        .greet-orca {
+            height: 22px;
+            width: auto;
+            vertical-align: middle;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+        }
+
         /* ── Rules panel (static, all visible) ──── */
         .rules-panel {
             position: absolute;
@@ -493,8 +568,11 @@
 
         <!-- Logo -->
         <div class="logo-area">
-            <div class="logo-text">foroz</div>
+            <div class="logo-text">for<span class="orca-o">o<img class="logo-orca" src="res/Orca.png" alt="o"></span>z</div>
             <div class="logo-sub">xat.com/foroz</div>
+            <div class="logo-greet" id="bdayGreet">
+                <div class="wood-sign">Feliz cumpleaños Anna</div>
+            </div>
         </div>
 
         <!-- Bingo banner -->
@@ -567,6 +645,20 @@
                 setTimeout(tick, 1000);
             }
             tick();
+
+            // Birthday greeting: reveal at 16:00 Mexico City (UTC-6) = 00:00 Spain (CEST).
+            var greet = document.getElementById("bdayGreet");
+            var orcaO = document.querySelector(".orca-o");
+            var greetTarget = Date.UTC(2026, 5, 26, 22, 0, 0); // 16:00 MX (26 Jun) = 22:00 UTC = 00:00 ES (27 Jun)
+            function checkGreet() {
+                if (Date.now() >= greetTarget) {
+                    if (greet) greet.classList.add("show");
+                    if (orcaO) orcaO.classList.add("reveal");
+                } else {
+                    setTimeout(checkGreet, 30000);
+                }
+            }
+            checkGreet();
         })();
     </script>
 </body>
