@@ -331,34 +331,49 @@
         /* ── Bingo banner (bottom) ──────────────── */
         .bingo-banner {
             position: absolute;
-            bottom: 10px;
+            bottom: 8px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 22;
             display: flex;
             align-items: center;
-            gap: 16px;
-            padding: 10px 22px;
-            border-radius: 14px;
+            gap: 14px;
+            padding: 6px 20px;
+            border-radius: 13px;
             background: linear-gradient(135deg, rgba(26, 74, 138, 0.94), rgba(15, 52, 104, 0.96));
             border: 1px solid rgba(150, 200, 255, 0.4);
             box-shadow: 0 12px 32px rgba(5, 25, 60, 0.5), inset 0 1px 0 rgba(255,255,255,0.15);
             white-space: nowrap;
         }
-        .bingo-info { display: flex; flex-direction: column; gap: 2px; }
+        .bingo-info { display: flex; flex-direction: column; gap: 0; }
         .bingo-title {
             font-family: 'Lilita One', cursive;
-            font-size: 1.05rem;
+            font-size: 0.92rem;
             letter-spacing: 0.5px;
             color: #ffffff;
             text-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
         }
         .bingo-prize {
             font-family: 'Lilita One', cursive;
-            font-size: 0.8rem;
+            font-size: 0.72rem;
             letter-spacing: 1px;
             color: #ffd54a;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+        }
+        .bingo-note {
+            display: inline-block;
+            align-self: flex-start;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.52rem;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 213, 74, 0.55);
+            padding: 2px 7px;
+            border-radius: 5px;
+            margin-top: 3px;
         }
         .bingo-sep {
             width: 1px;
@@ -487,6 +502,7 @@
             <div class="bingo-info">
                 <div class="bingo-title">¡Gran Bingo · 10K xats!</div>
                 <div class="bingo-prize">4 ganadores de 2.5K</div>
+                <div class="bingo-note">Solo usuarios frecuentes de Foroz</div>
             </div>
             <div class="bingo-sep"></div>
             <div class="bingo-timer">
