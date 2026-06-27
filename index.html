@@ -181,18 +181,8 @@
         }
 
         .logo-tabs .logo-text {
-            font-family: 'Lilita One', cursive;
-            font-size: 0.68rem;
-            letter-spacing: 1px;
-            color: #ffd54a;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-            -webkit-text-stroke: 0;
-        }
-        .logo-tabs .tabs-foroz {
-            font-family: 'Chokokutai', cursive;
             font-size: 0.85rem;
             letter-spacing: 2px;
-            color: #fff;
             text-shadow: none;
             -webkit-text-stroke: 1px #0b1a38;
             paint-order: stroke fill;
@@ -247,81 +237,6 @@
             letter-spacing: 4px;
             margin-top: 10px;
             margin-left: 6px;
-        }
-
-        /* Orca over the second "o" of the big logo (revealed at 16:00) */
-        .orca-o {
-            position: relative;
-        }
-        .orca-o.reveal {
-            color: transparent;
-            text-shadow: none;
-        }
-        .logo-orca {
-            display: none;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            height: 0.95em;
-            width: auto;
-            pointer-events: none;
-            filter: drop-shadow(0 7px 8px rgba(8, 40, 130, 0.45));
-        }
-        .orca-o.reveal .logo-orca { display: block; }
-
-        /* Birthday greeting on a hanging wooden sign (revealed at 16:00 MX / 00:00 Spain) */
-        .logo-greet {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 20px;
-            margin-top: 18px;
-        }
-        .logo-greet.show { display: block; }
-
-        .wood-sign {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-            padding: 9px 18px;
-            border-radius: 7px;
-            font-family: 'Lilita One', cursive;
-            font-size: 0.95rem;
-            letter-spacing: 0.5px;
-            color: #fff6e2;
-            text-shadow: 0 1px 0 #4a2e12, 0 2px 3px rgba(0, 0, 0, 0.5);
-            background:
-                repeating-linear-gradient(90deg, rgba(0,0,0,0.07) 0 2px, transparent 2px 11px),
-                linear-gradient(180deg, #b57b41 0%, #98602f 52%, #784a22 100%);
-            border: 2px solid #5c3a1a;
-            box-shadow:
-                0 10px 20px rgba(0, 0, 0, 0.4),
-                inset 0 2px 4px rgba(255, 220, 170, 0.3),
-                inset 0 -3px 6px rgba(0, 0, 0, 0.3);
-        }
-        /* Two ropes going up toward the big logo */
-        .wood-sign::before,
-        .wood-sign::after {
-            content: "";
-            position: absolute;
-            top: -56px;
-            width: 4px;
-            height: 58px;
-            background: repeating-linear-gradient(0deg, #d4ab63 0 4px, #a4783c 4px 8px);
-            border-radius: 2px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        }
-        .wood-sign::before { left: 22px; transform: rotate(9deg); transform-origin: bottom center; }
-        .wood-sign::after { right: 22px; transform: rotate(-9deg); transform-origin: bottom center; }
-
-        .greet-orca {
-            height: 22px;
-            width: auto;
-            vertical-align: middle;
-            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
         }
 
         /* ── Rules panel (static, all visible) ──── */
@@ -401,79 +316,6 @@
             margin-top: 6px;
             padding-right: 4px;
             letter-spacing: 0.5px;
-        }
-
-        /* ── Bingo banner (bottom) ──────────────── */
-        .bingo-banner {
-            position: absolute;
-            bottom: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 22;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 6px 20px;
-            border-radius: 13px;
-            background: linear-gradient(135deg, rgba(26, 74, 138, 0.94), rgba(15, 52, 104, 0.96));
-            border: 1px solid rgba(150, 200, 255, 0.4);
-            box-shadow: 0 12px 32px rgba(5, 25, 60, 0.5), inset 0 1px 0 rgba(255,255,255,0.15);
-            white-space: nowrap;
-        }
-        .bingo-info { display: flex; flex-direction: column; gap: 0; }
-        .bingo-title {
-            font-family: 'Lilita One', cursive;
-            font-size: 0.92rem;
-            letter-spacing: 0.5px;
-            color: #ffffff;
-            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
-        }
-        .bingo-prize {
-            font-family: 'Lilita One', cursive;
-            font-size: 0.72rem;
-            letter-spacing: 1px;
-            color: #ffd54a;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-        }
-        .bingo-note {
-            display: inline-block;
-            align-self: flex-start;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.52rem;
-            font-weight: 700;
-            letter-spacing: 0.4px;
-            text-transform: uppercase;
-            color: #fff;
-            background: rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 213, 74, 0.55);
-            padding: 2px 7px;
-            border-radius: 5px;
-            margin-top: 3px;
-        }
-        .bingo-sep {
-            width: 1px;
-            align-self: stretch;
-            background: rgba(150, 200, 255, 0.3);
-        }
-        .bingo-timer { display: flex; flex-direction: column; align-items: center; gap: 1px; }
-        .bingo-label {
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.55rem;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: rgba(190, 220, 255, 0.85);
-        }
-        .bingo-cd {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 1px;
-            width: 96px;
-            text-align: center;
-            white-space: nowrap;
-            font-variant-numeric: tabular-nums;
         }
 
         /* ── Responsive ─────────────────────────── */
@@ -568,25 +410,8 @@
 
         <!-- Logo -->
         <div class="logo-area">
-            <div class="logo-text">for<span class="orca-o">o<img class="logo-orca" src="data:image/png;base64,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" alt="o"></span>z</div>
+            <div class="logo-text">foroz</div>
             <div class="logo-sub">xat.com/foroz</div>
-            <div class="logo-greet" id="bdayGreet">
-                <div class="wood-sign">Feliz cumpleaños Anna</div>
-            </div>
-        </div>
-
-        <!-- Bingo banner -->
-        <div class="bingo-banner">
-            <div class="bingo-info">
-                <div class="bingo-title">¡Gran Bingo · 10K xats!</div>
-                <div class="bingo-prize">4 ganadores de 2.5K</div>
-                <div class="bingo-note">Solo usuarios frecuentes de Foroz</div>
-            </div>
-            <div class="bingo-sep"></div>
-            <div class="bingo-timer">
-                <div class="bingo-label">Empieza en</div>
-                <div class="bingo-cd" id="bingoCd">--:--:--</div>
-            </div>
         </div>
 
         <!-- Chat backdrop -->
@@ -594,7 +419,7 @@
 
         <!-- Logo at tabs height -->
         <div class="logo-tabs">
-            <div class="logo-text">Gran bingo 10k ·<span id="bingoCdTabs" style="display:inline-block;width:64px;text-align:center;font-variant-numeric:tabular-nums">--:--:--</span>· <span class="tabs-foroz">foroz</span></div>
+            <div class="logo-text">foroz</div>
         </div>
 
         <!-- Rules (all 4 visible) -->
@@ -623,43 +448,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        (function () {
-            // Bingo start: 26 Jun 2026, 19:00 Mexico City time (UTC-6).
-            // Anchored in UTC so it counts down correctly in any timezone.
-            var target = Date.UTC(2026, 5, 27, 1, 0, 0); // 19:00 MX (26 Jun) = 01:00 UTC (27 Jun)
-            var els = [document.getElementById("bingoCd"), document.getElementById("bingoCdTabs")];
-            function setText(t) { for (var i = 0; i < els.length; i++) { if (els[i]) els[i].textContent = t; } }
-            function pad(n) { return (n < 10 ? "0" : "") + n; }
-            function tick() {
-                var diff = target - Date.now();
-                if (diff <= 0) {
-                    setText("¡EN VIVO!");
-                    return;
-                }
-                var h = Math.floor(diff / 3600000);
-                var m = Math.floor((diff % 3600000) / 60000);
-                var s = Math.floor((diff % 60000) / 1000);
-                setText(pad(h) + ":" + pad(m) + ":" + pad(s));
-                setTimeout(tick, 1000);
-            }
-            tick();
-
-            // Birthday greeting: reveal at 16:00 Mexico City (UTC-6) = 00:00 Spain (CEST).
-            var greet = document.getElementById("bdayGreet");
-            var orcaO = document.querySelector(".orca-o");
-            var greetTarget = Date.UTC(2026, 5, 26, 22, 0, 0); // 16:00 MX (26 Jun) = 22:00 UTC = 00:00 ES (27 Jun)
-            function checkGreet() {
-                if (Date.now() >= greetTarget) {
-                    if (greet) greet.classList.add("show");
-                    if (orcaO) orcaO.classList.add("reveal");
-                } else {
-                    setTimeout(checkGreet, 30000);
-                }
-            }
-            checkGreet();
-        })();
-    </script>
 </body>
 </html>
