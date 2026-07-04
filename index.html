@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,7 @@
     <title>foroz</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chokokutai&family=Lilita+One&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cinzel:wght@600;700;800&family=Rajdhani:wght@500;600;700&family=Teko:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -14,11 +14,17 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Rajdhani', sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #0b1a38 0%, #0f2550 35%, #163566 65%, #1b3f75 100%);
+            /* Premium midnight stadium with a golden top spotlight */
+            background:
+                radial-gradient(90% 60% at 50% -6%, rgba(255, 214, 130, 0.22) 0%, transparent 55%),
+                radial-gradient(120% 90% at 12% 8%, #16233f 0%, transparent 55%),
+                radial-gradient(120% 90% at 88% 96%, #1a1330 0%, transparent 55%),
+                linear-gradient(160deg, #0a1226 0%, #0d1024 45%, #120a24 100%);
+            color: #fff;
         }
 
         .scene {
@@ -28,134 +34,290 @@
             overflow: hidden;
         }
 
-        /* ── Sun rays (static) ───────────────────── */
+        /* ── Rotating light rays ──────────────────── */
         .rays {
             position: absolute;
+            inset: -40%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.1;
+            transform-origin: 50% 34%;
+            background: repeating-conic-gradient(from 0deg at 50% 34%,
+                rgba(255, 220, 140, 0.75) 0deg 1.4deg,
+                transparent 1.4deg 13deg);
+            animation: rayspin 120s linear infinite;
+        }
+        @keyframes rayspin { to { transform: rotate(360deg); } }
+
+        /* ── Faint tech grid ──────────────────────── */
+        .grid {
+            position: absolute;
             inset: 0;
+            z-index: 1;
             pointer-events: none;
-            overflow: hidden;
+            opacity: 0.4;
+            background-image:
+                linear-gradient(rgba(150,180,255,0.045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(150,180,255,0.045) 1px, transparent 1px);
+            background-size: 48px 48px;
+            -webkit-mask: radial-gradient(120% 90% at 50% 40%, #000 30%, transparent 80%);
+            mask: radial-gradient(120% 90% at 50% 40%, #000 30%, transparent 80%);
         }
 
-        .rays::before {
-            content: "";
+        /* ── Diagonal color energy (MX + ENG) ─────── */
+        .accent {
             position: absolute;
-            top: 10%;
-            left: 25%;
-            width: 150vmax;
-            height: 150vmax;
-            transform: translate(-50%, -50%) rotate(15deg);
-            background: repeating-conic-gradient(
-                rgba(120, 190, 255, 0.06) 0deg 4deg,
-                transparent 4deg 20deg
-            );
+            pointer-events: none;
+            z-index: 1;
+            filter: blur(3px);
+        }
+        .accent-mx {
+            top: -22%;
+            left: -9%;
+            width: 380px;
+            height: 155%;
+            transform: rotate(20deg);
+            opacity: 0.16;
+            background: linear-gradient(180deg, #00a651, #0a7d3b);
+        }
+        .accent-eng {
+            bottom: -22%;
+            right: -9%;
+            width: 380px;
+            height: 155%;
+            transform: rotate(20deg);
+            opacity: 0.16;
+            background: linear-gradient(180deg, #ffffff 0%, #cf142b 60%, #7a0d1c 100%);
         }
 
-        .rays::after {
-            content: "";
+        /* ── Golden particles ─────────────────────── */
+        .spark {
             position: absolute;
-            top: 10%;
-            left: 25%;
-            width: 150vmax;
-            height: 150vmax;
-            transform: translate(-50%, -50%) rotate(-10deg);
-            background: repeating-conic-gradient(
-                rgba(180, 220, 255, 0.04) 0deg 3deg,
-                transparent 3deg 15deg
-            );
-        }
-
-        /* ── Sun ────────────────────────────────── */
-        .sun {
-            position: absolute;
-            top: calc(4% + 20px);
-            left: 25%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 100px;
             z-index: 2;
-            pointer-events: none;
-            filter: drop-shadow(0 0 30px rgba(140, 200, 255, 0.4))
-                    drop-shadow(0 0 60px rgba(100, 180, 255, 0.2));
-        }
-
-        .sun svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* ── Ambient glow spots ─────────────────── */
-        .glow-spot {
-            position: absolute;
+            width: 4px;
+            height: 4px;
             border-radius: 50%;
-            filter: blur(90px);
+            background: radial-gradient(circle, #fff4c2 0%, #f0c04a 55%, transparent 70%);
+            box-shadow: 0 0 8px 2px rgba(255, 205, 110, 0.5);
             pointer-events: none;
-            opacity: 0.35;
+            animation: twinkle 4s ease-in-out infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.25; transform: scale(0.8); }
+            50%      { opacity: 1; transform: scale(1.25); }
         }
 
-        /* ── Mario-style clouds (static) ────────── */
-        .cloud {
+        /* ── Brand (top-left) ─────────────────────── */
+        .brand {
             position: absolute;
-            pointer-events: none;
+            top: 96px;
+            left: 36px;
+            z-index: 12;
         }
-
-        .cloud-body {
-            position: relative;
-            display: inline-block;
+        .brand .b-name {
+            font-family: 'Anton', sans-serif;
+            font-size: 2.1rem;
+            letter-spacing: 2px;
+            line-height: 1;
+            text-transform: lowercase;
+            background: linear-gradient(180deg, #ffffff 0%, #ffe6a6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
         }
-
-        .cloud-body svg {
-            display: block;
+        .brand .b-bar {
+            height: 4px;
             width: 100%;
-            height: 100%;
-            filter: drop-shadow(0 4px 10px rgba(0, 30, 100, 0.25));
+            margin-top: 4px;
+            border-radius: 3px;
+            background: linear-gradient(90deg, #00a651 0 50%, #cf142b 50% 100%);
+            box-shadow: 0 0 10px rgba(255, 210, 120, 0.4);
+        }
+        .brand .b-sub {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            letter-spacing: 4px;
+            font-size: 0.62rem;
+            color: #a8b6d6;
+            margin-top: 5px;
+            text-transform: uppercase;
         }
 
-        .cloud-base { fill: #fff; }
-        .cloud-shade { fill: #d0e4ff; }
-        .cloud-highlight { fill: #f0f8ff; }
-        .cloud-outline {
-            fill: none;
-            stroke: rgba(80, 130, 200, 0.6);
-            stroke-width: 2.5;
-            stroke-linejoin: round;
-        }
-        .cloud-eye { fill: #1a3a6a; }
-        .cloud-eye-shine { fill: #fff; }
-
-        .cloud.sm .cloud-body { width: 90px; height: 62px; }
-        .cloud.md .cloud-body { width: 140px; height: 95px; }
-        .cloud.lg .cloud-body { width: 195px; height: 130px; }
-
-        /* ── Mario hills ─────────────────────────── */
-        .hills {
+        /* ── Matchup centerpiece (left) ───────────── */
+        .matchup {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
+            left: 3.4%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: clamp(250px, 28vw, 360px);
+            z-index: 10;
+        }
+        .mu-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.62rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #1a1206;
+            background: linear-gradient(90deg, #ffe08a, #f3b53f);
+            padding: 4px 14px;
+            border-radius: 4px;
+            margin-bottom: 18px;
+            box-shadow: 0 6px 16px rgba(190, 130, 20, 0.4);
+        }
+        .mu-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            animation: floaty 6s ease-in-out infinite;
+        }
+        .mu-row.b { animation-delay: -3s; }
+        @keyframes floaty {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-4px); }
+        }
+        .mu-flag {
+            width: 62px;
+            height: 42px;
+            border-radius: 7px;
             overflow: hidden;
+            flex-shrink: 0;
+            border: 2px solid rgba(255, 226, 160, 0.7);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.55), 0 0 18px rgba(255, 205, 110, 0.28);
+        }
+        .mu-flag svg { display: block; width: 100%; height: 100%; }
+        .mu-name {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(2.1rem, 4.8vw, 3.4rem);
+            letter-spacing: 1px;
+            line-height: 0.9;
+            color: #fff;
+            text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+        }
+        .mu-name.mx { text-shadow: 0 0 22px rgba(0, 200, 110, 0.45), 0 4px 14px rgba(0,0,0,0.6); }
+        .mu-name.eng { text-shadow: 0 0 22px rgba(220, 40, 60, 0.4), 0 4px 14px rgba(0,0,0,0.6); }
+
+        /* VS emblem */
+        .mu-vs {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 12px 0 12px 10px;
+        }
+        .mu-vs .badge {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Anton', sans-serif;
+            font-size: 1.3rem;
+            color: #1a1206;
+            background: radial-gradient(circle at 35% 30%, #fff2c0, #f0bd45 55%, #c9902a);
+            border: 2px solid rgba(255, 248, 214, 0.8);
+            box-shadow: 0 0 22px rgba(255, 205, 110, 0.55), inset 0 -3px 6px rgba(150,100,10,0.5);
+            animation: vsPulse 3s ease-in-out infinite;
+        }
+        @keyframes vsPulse {
+            0%, 100% { box-shadow: 0 0 18px rgba(255, 205, 110, 0.4), inset 0 -3px 6px rgba(150,100,10,0.5); }
+            50%      { box-shadow: 0 0 34px rgba(255, 220, 140, 0.75), inset 0 -3px 6px rgba(150,100,10,0.5); }
+        }
+        .mu-vs .line {
+            height: 2px;
+            flex: 1;
+            background: linear-gradient(90deg, rgba(255, 220, 150, 0.6), transparent);
         }
 
-        .hill-layer {
+        /* Premium countdown */
+        .mu-timer {
+            display: inline-block;
+            margin-top: 26px;
+            padding: 12px 20px 14px;
+            border-radius: 14px;
+            background: linear-gradient(180deg, rgba(18,26,48,0.92), rgba(9,13,28,0.92));
+            border: 1px solid rgba(255, 210, 120, 0.35);
+            box-shadow: 0 16px 34px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,240,200,0.12);
+        }
+        .mu-timer .lbl {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 0.68rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #d8b877;
+        }
+        .mu-timer .clock {
+            font-family: 'Teko', sans-serif;
+            font-weight: 600;
+            font-size: 2.7rem;
+            line-height: 0.9;
+            letter-spacing: 4px;
+            margin-top: 2px;
+            width: 184px;
+            text-align: center;
+            white-space: nowrap;
+            font-variant-numeric: tabular-nums;
+            background: linear-gradient(180deg, #fff6d6 0%, #f2c85a 55%, #e0a72e 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255, 200, 90, 0.35));
+        }
+
+        /* ── Ornate chat frame (around the xat box) ── */
+        .chat-frame {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
+            top: 81px;
+            left: 50.25%;
+            transform: translateX(-50%);
+            width: 752px;
+            height: 510px;
+            border-radius: 20px;
+            z-index: 21;
+            pointer-events: none;
+            padding: 3px;
+            background: linear-gradient(135deg, #fff0b8 0%, #e8b23a 22%, #7d5711 48%, #ffe9a8 72%, #d99f30 100%);
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            box-shadow:
+                0 0 40px rgba(255, 200, 90, 0.28),
+                0 24px 70px rgba(0, 0, 0, 0.55);
+            animation: framePulse 4.5s ease-in-out infinite;
+        }
+        @keyframes framePulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 200, 90, 0.2), 0 24px 70px rgba(0,0,0,0.55); }
+            50%      { box-shadow: 0 0 60px rgba(255, 215, 120, 0.45), 0 24px 70px rgba(0,0,0,0.55); }
+        }
+        /* Broadcast corner brackets */
+        .chat-corners {
+            position: absolute;
+            top: 81px;
+            left: 50.25%;
+            transform: translateX(-50%);
+            width: 752px;
+            height: 510px;
+            z-index: 22;
             pointer-events: none;
         }
-
-        .hill-layer svg {
-            width: 100%;
-            height: 100%;
-            display: block;
+        .chat-corners i {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 3px solid #ffe1a0;
+            filter: drop-shadow(0 0 7px rgba(255, 205, 110, 0.7));
         }
+        .chat-corners .tl { top: -5px; left: -5px; border-right: 0; border-bottom: 0; border-radius: 10px 0 0 0; }
+        .chat-corners .tr { top: -5px; right: -5px; border-left: 0; border-bottom: 0; border-radius: 0 10px 0 0; }
+        .chat-corners .bl { bottom: -5px; left: -5px; border-right: 0; border-top: 0; border-radius: 0 0 0 10px; }
+        .chat-corners .br { bottom: -5px; right: -5px; border-left: 0; border-top: 0; border-radius: 0 0 10px 0; }
 
-        .hill-back { height: 450px; z-index: 4; }
-        .hill-mid { height: 380px; z-index: 6; }
-        .hill-front { height: 280px; z-index: 8; }
-
-        /* ── Chat backdrop ───────────────────────── */
+        /* ── Chat backdrop (fill under the xat) ───── */
         .chat-backdrop {
             position: absolute;
             top: 93px;
@@ -163,290 +325,322 @@
             transform: translateX(-50%);
             width: 728px;
             height: 486px;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background:
+                radial-gradient(120% 80% at 50% 0%, rgba(255, 210, 120, 0.06) 0%, transparent 55%),
+                linear-gradient(180deg, rgba(12, 18, 34, 0.92) 0%, rgba(8, 11, 24, 0.94) 100%);
             border-radius: 16px;
+            border: 1px solid rgba(255, 220, 150, 0.14);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.06),
+                inset 0 0 60px rgba(0, 0, 0, 0.45);
             z-index: 20;
             pointer-events: none;
         }
 
-        /* ── Logo secondary (at tabs height) ───── */
+        /* ── Logo at tabs height ──────────────────── */
         .logo-tabs {
             position: absolute;
             right: calc(50.25% - 189px + 10px);
             top: 439px;
             transform: translateY(-50%);
-            z-index: 21;
+            z-index: 23;
             text-align: right;
         }
-
         .logo-tabs .logo-text {
-            font-size: 0.85rem;
-            letter-spacing: 2px;
-            text-shadow: none;
-            -webkit-text-stroke: 1px #0b1a38;
-            paint-order: stroke fill;
+            font-family: 'Anton', sans-serif;
+            font-size: 0.82rem;
+            letter-spacing: 1px;
+            text-transform: lowercase;
+            background: linear-gradient(180deg, #ffffff, #ffe0a0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
-        /* ── Logo ───────────────────────────────── */
-        .logo-area {
+        /* ── Rules rail (right) ───────────────────── */
+        .rules-rail {
             position: absolute;
-            left: 5%;
-            top: calc(50% - 100px);
-            transform: translateY(-50%) perspective(800px) rotateY(18deg);
-            transform-origin: right center;
-            z-index: 5;
-        }
-
-        .logo-text {
-            font-family: 'Chokokutai', cursive;
-            font-size: clamp(4rem, 8vw, 6.5rem);
-            font-weight: 800;
-            color: #fff;
-            letter-spacing: 5px;
-            line-height: 1;
-            text-shadow:
-                0  1px 0 #e4edff,
-                0  2px 0 #dce8ff,
-                0  3px 0 #d0e0ff,
-                0  4px 0 #c4d8ff,
-                0  5px 0 #b8d0fa,
-                0  6px 0 #a8c4f5,
-                0  7px 0 #98b8f0,
-                0  8px 0 #88abeb,
-                0  9px 0 #78a0e6,
-                0 10px 0 #6894e0,
-                0 11px 0 #5888da,
-                0 12px 0 #487cd4,
-                0 13px 0 #3870ce,
-                0 14px 0 #2864c8,
-                0 15px 0 #1a58c2,
-                0 16px 0 #104cbc,
-                0 18px 18px rgba(8, 40, 130, 0.55),
-                0 24px 40px rgba(10, 50, 160, 0.35),
-                0 30px 60px rgba(10, 40, 140, 0.2),
-                0  0  80px rgba(90, 165, 255, 0.2);
-            user-select: text;
-        }
-
-        .logo-sub {
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: rgba(170, 210, 255, 0.45);
-            letter-spacing: 4px;
-            margin-top: 10px;
-            margin-left: 6px;
-        }
-
-        /* ── Rules panel (static, all visible) ──── */
-        .rules-panel {
-            position: absolute;
-            top: 336px;
-            right: 5%;
-            transform: translateY(-50%) perspective(800px) rotateY(-10deg);
-            transform-origin: left center;
-            width: clamp(220px, 17vw, 290px);
+            right: 3%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: clamp(230px, 25vw, 310px);
             z-index: 10;
-        }
-
-        .rules-card {
-            background: rgba(255, 255, 255, 0.748);
-            backdrop-filter: blur(9px);
-            -webkit-backdrop-filter: blur(9px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 10px;
-            padding: 0 0 8px;
-            box-shadow:
-                0 24px 64px rgba(0, 0, 0, 0.18),
-                0  4px 12px rgba(0, 0, 0, 0.08),
-                0  0  40px rgba(60, 140, 255, 0.08);
-            overflow: hidden;
-        }
-
-        .rules-header {
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            text-align: center;
-            padding: 14px 26px;
-            margin: 0;
-            background: linear-gradient(135deg, #1a4a8a, #0f3468);
-            border-bottom: 1px solid rgba(100, 180, 255, 0.15);
-        }
-
-        .rules-list {
-            padding: 16px 18px 10px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 11px;
         }
-
-        .rule-item {
+        .rules-title {
+            font-family: 'Cinzel', serif;
+            font-weight: 800;
+            font-size: 1.15rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #1a1206;
+            align-self: flex-start;
+            padding: 5px 18px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, #ffe08a, #f0bd45);
+            box-shadow: 0 8px 20px rgba(190, 130, 20, 0.4);
+        }
+        .rule-tile {
+            position: relative;
             display: flex;
-            gap: 10px;
-            align-items: flex-start;
+            align-items: center;
+            gap: 13px;
+            padding: 10px 15px;
+            border-radius: 10px;
+            background: linear-gradient(100deg, rgba(20,28,50,0.94), rgba(11,15,30,0.94));
+            border: 1px solid rgba(255, 220, 150, 0.12);
+            border-left: 4px solid var(--ac, #00a651);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.4);
         }
-
-        .rule-num {
-            font-family: 'Lilita One', cursive;
-            font-size: 1.1rem;
+        .rule-tile .num {
+            font-family: 'Teko', sans-serif;
             font-weight: 700;
-            color: rgba(30, 80, 180, 0.3);
-            line-height: 1.3;
+            font-size: 2rem;
+            line-height: 1;
+            color: var(--ac, #00a651);
             flex-shrink: 0;
+            min-width: 22px;
+            text-align: center;
+            filter: drop-shadow(0 0 6px rgba(0,0,0,0.4));
         }
-
-        .rule-txt {
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.7rem;
+        .rule-tile .txt {
+            font-family: 'Rajdhani', sans-serif;
             font-weight: 600;
-            color: #1e293b;
-            text-align: left;
-            line-height: 1.4;
+            font-size: 0.72rem;
+            line-height: 1.25;
+            color: #e2e8f4;
         }
-
-        .rule-credit {
-            font-size: 0.9rem;
-            color: rgba(30, 60, 120, 0.35);
-            text-align: right;
-            margin-top: 6px;
+        .rules-credit {
+            align-self: flex-end;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 0.82rem;
+            letter-spacing: 1px;
+            color: #d8b877;
+            margin-top: 2px;
             padding-right: 4px;
-            letter-spacing: 0.5px;
         }
 
-        /* ── Responsive ─────────────────────────── */
-        @media (max-width: 960px) {
-            .rules-panel { display: none; }
-            .logo-area {
-                left: 50%;
-                text-align: center;
-                transform: translate(-50%, -50%);
-                transform-origin: center center;
+        /* ── Responsive (landscape) ───────────────── */
+        @media (max-width: 1120px) {
+            .rules-rail { display: none; }
+        }
+        @media (max-width: 860px) {
+            .matchup { left: 50%; transform: translate(-50%, -50%); text-align: center; }
+            .mu-row, .mu-vs { justify-content: center; }
+        }
+
+        /* ── Portrait / vertical (phones): premium stacked ── */
+        .mobile-view { display: none; }
+
+        @media (max-aspect-ratio: 1/1) {
+            html, body { overflow-y: auto; }
+            .scene { display: none !important; }
+            body {
+                background:
+                    radial-gradient(120% 55% at 50% 0%, rgba(255,210,120,0.14) 0%, transparent 60%),
+                    linear-gradient(180deg, #0a1226, #0f0a22);
             }
-        }
-
-        @media (max-width: 480px) {
-            .logo-text { letter-spacing: 2px; }
+            .mobile-view {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-height: 100vh;
+                padding: 26px 18px calc(20px + env(safe-area-inset-bottom));
+            }
+            .m-top { margin-top: auto; width: 100%; max-width: 330px; display: flex; flex-direction: column; gap: 14px; }
+            .m-brand {
+                font-family: 'Anton', sans-serif;
+                font-size: 1.6rem;
+                letter-spacing: 1px;
+                text-transform: lowercase;
+                text-align: center;
+                background: linear-gradient(180deg,#fff,#ffe0a0);
+                -webkit-background-clip: text; background-clip: text; color: transparent;
+            }
+            .m-match {
+                display: flex; align-items: center; justify-content: center; gap: 12px;
+                padding: 13px; border-radius: 14px;
+                background: rgba(16, 22, 42, 0.92);
+                border: 1px solid rgba(255,210,120,0.28);
+            }
+            .m-match .mu-flag { width: 46px; height: 31px; }
+            .m-match .mu-name { font-size: 1.7rem; }
+            .m-match .vs { font-family: 'Anton', sans-serif; color: #f2c85a; font-size: 1.15rem; }
+            .m-timer { text-align: center; }
+            .m-timer .lbl { font-weight: 700; letter-spacing: 3px; font-size: 0.62rem; color: #d8b877; text-transform: uppercase; }
+            .m-timer .clock {
+                font-family: 'Teko', sans-serif; font-size: 2.6rem; line-height: 1; letter-spacing: 3px;
+                font-variant-numeric: tabular-nums;
+                background: linear-gradient(180deg,#fff6d6,#f2c85a 60%,#e0a72e);
+                -webkit-background-clip: text; background-clip: text; color: transparent;
+            }
+            .m-rules { width: 100%; max-width: 330px; display: flex; flex-direction: column; gap: 7px; }
+            .m-rule {
+                display: flex; gap: 10px; align-items: center;
+                background: rgba(16, 22, 42, 0.92);
+                border-left: 4px solid var(--ac, #00a651);
+                border-radius: 8px; padding: 8px 11px;
+            }
+            .m-rule .num { font-family: 'Teko', sans-serif; font-weight: 700; font-size: 1.5rem; color: var(--ac, #00a651); }
+            .m-rule .txt { font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 0.6rem; line-height: 1.25; color: #e2e8f4; }
         }
     </style>
 </head>
 <body>
     <div class="scene">
         <div class="rays"></div>
+        <div class="grid"></div>
+        <div class="accent accent-mx"></div>
+        <div class="accent accent-eng"></div>
 
-        <!-- Sun -->
-        <div class="sun">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="48" fill="rgba(200, 230, 255, 0.25)"/>
-                <circle cx="50" cy="50" r="36" fill="#d0e6ff"/>
-                <circle cx="50" cy="50" r="36" fill="url(#sunGrad)" />
-                <ellipse cx="44" cy="40" rx="18" ry="14" fill="rgba(255, 255, 255, 0.45)"/>
-                <circle cx="40" cy="48" r="3" fill="rgba(30, 60, 140, 0.7)"/>
-                <circle cx="60" cy="48" r="3" fill="rgba(30, 60, 140, 0.7)"/>
-                <circle cx="39" cy="46" r="1.2" fill="rgba(255,255,255,0.85)"/>
-                <circle cx="59" cy="46" r="1.2" fill="rgba(255,255,255,0.85)"/>
-                <path d="M42,57 Q50,65 58,57" fill="none" stroke="rgba(30, 60, 140, 0.55)" stroke-width="2" stroke-linecap="round"/>
-                <ellipse cx="35" cy="56" rx="5" ry="3" fill="rgba(140, 190, 255, 0.4)"/>
-                <ellipse cx="65" cy="56" rx="5" ry="3" fill="rgba(140, 190, 255, 0.4)"/>
-                <defs>
-                    <radialGradient id="sunGrad" cx="40%" cy="38%" r="55%">
-                        <stop offset="0%" stop-color="rgba(235, 245, 255, 0.9)"/>
-                        <stop offset="100%" stop-color="rgba(170, 215, 255, 0.7)"/>
-                    </radialGradient>
-                </defs>
-            </svg>
-        </div>
+        <!-- Golden sparks -->
+        <span class="spark" style="top:14%;left:20%;animation-delay:0s"></span>
+        <span class="spark" style="top:22%;left:44%;animation-delay:-1.2s"></span>
+        <span class="spark" style="top:10%;left:70%;animation-delay:-2.1s;width:3px;height:3px"></span>
+        <span class="spark" style="top:30%;left:86%;animation-delay:-0.6s"></span>
+        <span class="spark" style="top:58%;left:8%;animation-delay:-1.8s"></span>
+        <span class="spark" style="top:72%;left:30%;animation-delay:-2.6s;width:3px;height:3px"></span>
+        <span class="spark" style="top:80%;left:64%;animation-delay:-0.9s"></span>
+        <span class="spark" style="top:66%;left:92%;animation-delay:-3.2s"></span>
+        <span class="spark" style="top:40%;left:16%;animation-delay:-1.5s;width:3px;height:3px"></span>
+        <span class="spark" style="top:88%;left:48%;animation-delay:-2.9s"></span>
 
-        <!-- Ambient glow -->
-        <div class="glow-spot" style="width:420px;height:420px;background:rgba(30,100,220,0.28);top:15%;left:12%"></div>
-        <div class="glow-spot" style="width:320px;height:320px;background:rgba(60,145,255,0.18);bottom:8%;right:18%"></div>
-        <div class="glow-spot" style="width:260px;height:260px;background:rgba(100,185,255,0.12);top:55%;left:48%"></div>
-
-        <!-- Clouds (static, scattered) -->
-        <div class="cloud sm" style="top:4%;left:8%;opacity:0.8;z-index:3">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
-        </div>
-        <div class="cloud md" style="top:7%;left:55%;opacity:0.75;z-index:3">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
-        </div>
-        <div class="cloud lg" style="top:2%;left:30%;opacity:0.7;z-index:3">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
-        </div>
-        <div class="cloud sm" style="top:36%;left:3%;opacity:0.85;z-index:5">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
-        </div>
-        <div class="cloud md" style="top:40%;left:68%;opacity:0.7;z-index:5">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
-        </div>
-        <div class="cloud lg" style="top:48%;left:35%;opacity:0.75;z-index:5">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
-        </div>
-        <div class="cloud sm" style="top:58%;left:82%;opacity:0.8;z-index:7">
-            <div class="cloud-body"><svg viewBox="0 0 170 115" xmlns="http://www.w3.org/2000/svg"><ellipse class="cloud-shade" cx="85" cy="88" rx="78" ry="25"/><ellipse class="cloud-base" cx="85" cy="82" rx="78" ry="26"/><circle class="cloud-base" cx="50" cy="60" r="32"/><circle class="cloud-base" cx="90" cy="48" r="38"/><circle class="cloud-base" cx="128" cy="60" r="28"/><circle class="cloud-base" cx="38" cy="68" r="24"/><ellipse class="cloud-highlight" cx="85" cy="50" rx="34" ry="14"/><path class="cloud-outline" d="M8,82 Q8,68 38,62 Q28,40 55,38 Q52,18 90,20 Q120,18 130,40 Q155,42 160,62 Q170,72 162,82"/><ellipse class="cloud-eye" cx="68" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="66" cy="69" r="2"/><ellipse class="cloud-eye" cx="105" cy="72" rx="5" ry="6.5"/><circle class="cloud-eye-shine" cx="103" cy="69" r="2"/></svg></div>
+        <!-- Brand -->
+        <div class="brand">
+            <div class="b-name">foroz</div>
+            <div class="b-bar"></div>
+            <div class="b-sub">xat.com/foroz</div>
         </div>
 
-        <!-- Hills -->
-        <div class="hills">
-            <div class="hill-layer hill-back">
-                <svg viewBox="0 0 1920 450" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0,450 L0,280 L80,240 L180,60 L220,40 L270,90 L340,200 L420,270 L490,110 L520,80 L555,130 L610,155 L680,210 L740,300 L830,285 L920,250 L960,180 L1040,195 L1100,140 L1150,40 L1195,90 L1230,65 L1280,135 L1340,250 L1410,275 L1500,310 L1580,320 L1660,300 L1720,160 L1750,120 L1790,145 L1830,175 L1920,300 L1920,450 Z" fill="#1a4a8a"/>
-                </svg>
+        <!-- Matchup centerpiece -->
+        <div class="matchup">
+            <span class="mu-tag">★ Mundial 2026 · Domingo 18:00</span>
+            <div class="mu-row">
+                <span class="mu-flag">
+                    <svg viewBox="0 0 9 6" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="3" height="6" x="0" fill="#006847"/>
+                        <rect width="3" height="6" x="3" fill="#ffffff"/>
+                        <rect width="3" height="6" x="6" fill="#ce1126"/>
+                        <circle cx="4.5" cy="3" r="0.9" fill="#7a5230"/>
+                    </svg>
+                </span>
+                <span class="mu-name mx">MÉXICO</span>
             </div>
-            <div class="hill-layer hill-mid">
-                <svg viewBox="0 0 1920 380" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0,380 L0,220 L60,190 L120,170 L200,200 L290,110 L340,50 L380,30 L420,70 L480,150 L560,210 L680,250 L780,265 L860,245 L940,100 L1000,50 L1045,80 L1100,140 L1180,210 L1260,235 L1350,195 L1430,150 L1530,70 L1580,45 L1600,30 L1635,65 L1700,180 L1780,250 L1850,255 L1920,275 L1920,380 Z" fill="#0f3468"/>
-                </svg>
+            <div class="mu-vs">
+                <span class="badge">VS</span>
+                <span class="line"></span>
             </div>
-            <div class="hill-layer hill-front">
-                <svg viewBox="0 0 1920 280" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0,280 L0,170 L50,150 L120,160 L200,130 L300,180 L400,100 L470,30 L510,15 L550,50 L610,110 L700,170 L800,195 L900,190 L1020,155 L1120,90 L1250,35 L1300,20 L1330,50 L1380,105 L1470,165 L1560,195 L1640,180 L1720,160 L1790,175 L1860,195 L1920,210 L1920,280 Z" fill="#06193c"/>
-                </svg>
+            <div class="mu-row b">
+                <span class="mu-flag">
+                    <svg viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="10" height="6" fill="#ffffff"/>
+                        <rect x="4.1" width="1.8" height="6" fill="#cf142b"/>
+                        <rect y="2.1" width="10" height="1.8" fill="#cf142b"/>
+                    </svg>
+                </span>
+                <span class="mu-name eng">INGLATERRA</span>
+            </div>
+
+            <div class="mu-timer">
+                <div class="lbl">Empieza en</div>
+                <div class="clock" id="cd">--:--:--</div>
             </div>
         </div>
 
-        <!-- Logo -->
-        <div class="logo-area">
-            <div class="logo-text">foroz</div>
-            <div class="logo-sub">xat.com/foroz</div>
-        </div>
-
-        <!-- Chat backdrop -->
+        <!-- Ornate chat frame + fill -->
         <div class="chat-backdrop"></div>
+        <div class="chat-frame"></div>
+        <div class="chat-corners"><i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i></div>
 
         <!-- Logo at tabs height -->
         <div class="logo-tabs">
             <div class="logo-text">foroz</div>
         </div>
 
-        <!-- Rules (all 4 visible) -->
-        <div class="rules-panel">
-            <div class="rules-card">
-                <div class="rules-header">Reglas</div>
-                <div class="rules-list">
-                    <div class="rule-item">
-                        <div class="rule-num">01</div>
-                        <div class="rule-txt">Spam: Prohibido, lo que incluye, pero no se limita a, mensajes, links, GIFs y emojis repetitivos.</div>
-                    </div>
-                    <div class="rule-item">
-                        <div class="rule-num">02</div>
-                        <div class="rule-txt">Datos personales: No se debe revelar información personal, incluida, pero no limitada a, la de los usuarios de Foroz o sus familiares.</div>
-                    </div>
-                    <div class="rule-item">
-                        <div class="rule-num">03</div>
-                        <div class="rule-txt">Clonación: Prohibido clonar cuentas de usuario.</div>
-                    </div>
-                    <div class="rule-item">
-                        <div class="rule-num">04</div>
-                        <div class="rule-txt">Menores de edad: Queda prohibido mencionar, involucrar o hacer referencia a hijos, niños o menores de edad de cualquier usuario o en general con el fin de provocar, insultar o molestar.</div>
-                    </div>
-                </div>
-                <div class="rule-credit">©𝑪𝒂𝒔𝒉</div>
+        <!-- Rules rail -->
+        <div class="rules-rail">
+            <div class="rules-title">Reglas</div>
+            <div class="rule-tile" style="--ac:#00a651">
+                <span class="num">1</span>
+                <span class="txt">Spam: Prohibido, lo que incluye, pero no se limita a, mensajes, links, GIFs y emojis repetitivos.</span>
+            </div>
+            <div class="rule-tile" style="--ac:#ffd54a">
+                <span class="num">2</span>
+                <span class="txt">Datos personales: No se debe revelar información personal, incluida la de los usuarios de Foroz o sus familiares.</span>
+            </div>
+            <div class="rule-tile" style="--ac:#4a90d9">
+                <span class="num">3</span>
+                <span class="txt">Clonación: Prohibido clonar cuentas de usuario.</span>
+            </div>
+            <div class="rule-tile" style="--ac:#cf142b">
+                <span class="num">4</span>
+                <span class="txt">Menores de edad: Queda prohibido mencionar o hacer referencia a menores con el fin de provocar, insultar o molestar.</span>
+            </div>
+            <div class="rules-credit">©𝑪𝒂𝒔𝒉</div>
+        </div>
+    </div>
+
+    <!-- ── Simple portrait/mobile view ── -->
+    <div class="mobile-view">
+        <div class="m-top">
+            <div class="m-brand">foroz</div>
+            <div class="m-match">
+                <span class="mu-flag">
+                    <svg viewBox="0 0 9 6" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="3" height="6" x="0" fill="#006847"/>
+                        <rect width="3" height="6" x="3" fill="#ffffff"/>
+                        <rect width="3" height="6" x="6" fill="#ce1126"/>
+                        <circle cx="4.5" cy="3" r="0.9" fill="#7a5230"/>
+                    </svg>
+                </span>
+                <span class="mu-name">MÉX</span>
+                <span class="vs">VS</span>
+                <span class="mu-name">ING</span>
+                <span class="mu-flag">
+                    <svg viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="10" height="6" fill="#ffffff"/>
+                        <rect x="4.1" width="1.8" height="6" fill="#cf142b"/>
+                        <rect y="2.1" width="10" height="1.8" fill="#cf142b"/>
+                    </svg>
+                </span>
+            </div>
+            <div class="m-timer">
+                <div class="lbl">Empieza en</div>
+                <div class="clock" id="cdMob">--:--:--</div>
+            </div>
+            <div class="m-rules">
+                <div class="m-rule" style="--ac:#00a651"><span class="num">1</span><span class="txt">Spam: Prohibido mensajes, links, GIFs y emojis repetitivos.</span></div>
+                <div class="m-rule" style="--ac:#ffd54a"><span class="num">2</span><span class="txt">Datos personales: No reveles información personal de usuarios ni familiares.</span></div>
+                <div class="m-rule" style="--ac:#4a90d9"><span class="num">3</span><span class="txt">Clonación: Prohibido clonar cuentas de usuario.</span></div>
+                <div class="m-rule" style="--ac:#cf142b"><span class="num">4</span><span class="txt">Menores de edad: Prohibido mencionarlos para provocar o molestar.</span></div>
             </div>
         </div>
     </div>
+
+    <script>
+        (function () {
+            // Kickoff: 5 Jul 2026, 18:00 Mexico City time (UTC-6).
+            var target = Date.UTC(2026, 6, 6, 0, 0, 0); // 18:00 MX (5 Jul) = 00:00 UTC (6 Jul)
+            var els = [document.getElementById("cd"), document.getElementById("cdMob")];
+            function setText(t) { for (var i = 0; i < els.length; i++) { if (els[i]) els[i].textContent = t; } }
+            function pad(n) { return (n < 10 ? "0" : "") + n; }
+            function tick() {
+                var diff = target - Date.now();
+                if (diff <= 0) {
+                    setText("¡EN VIVO!");
+                    return;
+                }
+                var h = Math.floor(diff / 3600000);
+                var m = Math.floor((diff % 3600000) / 60000);
+                var s = Math.floor((diff % 60000) / 1000);
+                setText(pad(h) + ":" + pad(m) + ":" + pad(s));
+                setTimeout(tick, 1000);
+            }
+            tick();
+        })();
+    </script>
 </body>
 </html>
