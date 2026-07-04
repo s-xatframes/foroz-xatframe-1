@@ -283,6 +283,7 @@
             padding: 3px;
             background: linear-gradient(135deg, #fff0b8 0%, #e8b23a 22%, #7d5711 48%, #ffe9a8 72%, #d99f30 100%);
             -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
             box-shadow:
@@ -325,15 +326,48 @@
             transform: translateX(-50%);
             width: 728px;
             height: 486px;
+            overflow: hidden;
             background:
-                radial-gradient(120% 80% at 50% 0%, rgba(255, 210, 120, 0.06) 0%, transparent 55%),
-                linear-gradient(180deg, rgba(12, 18, 34, 0.92) 0%, rgba(8, 11, 24, 0.94) 100%);
+                radial-gradient(70% 55% at 22% 12%, rgba(255, 236, 190, 0.10) 0%, transparent 60%),
+                radial-gradient(120% 80% at 50% 0%, rgba(255, 210, 120, 0.08) 0%, transparent 55%),
+                linear-gradient(180deg, rgba(30, 42, 70, 0.9) 0%, rgba(18, 26, 48, 0.92) 100%);
             border-radius: 16px;
-            border: 1px solid rgba(255, 220, 150, 0.14);
+            border: 1px solid rgba(255, 220, 150, 0.16);
             box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.06),
-                inset 0 0 60px rgba(0, 0, 0, 0.45);
+                inset 0 1px 0 rgba(255, 255, 255, 0.09),
+                inset 0 0 60px rgba(0, 0, 0, 0.35);
             z-index: 20;
+            pointer-events: none;
+        }
+        /* Static diagonal light flare */
+        .chat-backdrop::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -25%;
+            width: 55%;
+            height: 200%;
+            transform: rotate(22deg);
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.12) 45%,
+                rgba(255, 246, 220, 0.16) 50%,
+                rgba(255, 255, 255, 0.12) 55%,
+                transparent 100%);
+            filter: blur(7px);
+            pointer-events: none;
+        }
+        /* Soft corner sheen */
+        .chat-backdrop::after {
+            content: "";
+            position: absolute;
+            top: -30px;
+            left: -30px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 240, 200, 0.22) 0%, transparent 70%);
+            filter: blur(4px);
             pointer-events: none;
         }
 
